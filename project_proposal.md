@@ -21,7 +21,7 @@
 
 ## Contributors
 
-- Max Barr
-- Victor Ojewole
-- Joe Kluener
-- Reuben John
+- Max Barr - Backend
+- Victor Ojewole - Frontend
+- Joe Kluener - Frontend
+- Reuben John - Backend
