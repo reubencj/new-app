@@ -7,14 +7,14 @@ import Favorites from './components/views/Favorites';
 import Feed from './components/views/Feed';
 import ViewArticle from './components/views/ViewArticle';
 import { useState } from 'react';
-
-// setting the user Id in App.Js so that state can be passed down to all necessary components/views without having to call the Back-end for each
-// view/component and storing it in state. It will later be passed to each view as a prop.
-const [userId, setUserId] = useState("");
-
-
+import axios from 'axios';
 
 function App() {
+  
+  // setting the user Id in App.Js so that state can be passed down to all necessary components/views without having to call the Back-end for each
+  // view/component and storing it in state. It will later be passed to each view as a prop.
+  const [userId, setUserId] = useState("");
+
   return (
     <div className="App">
       <Router>
