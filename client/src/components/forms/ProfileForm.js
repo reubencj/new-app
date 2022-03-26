@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const ProfileForm = (props) => {
     const {userId} = props;
     const [user, setUser] = useState({});
@@ -37,6 +39,7 @@ const ProfileForm = (props) => {
                     <label htmlFor="interests" className="form-label">Interests:</label>
                     {userId?
                     <select className="form-select">
+                        {/* Going to have to map all the favorites that were selected so that they appear in this menu */}
                         {/* Replace this with a map of the api */}
                         <option selected>Open this select menu</option>
                         <option value="1">One</option>
@@ -55,7 +58,7 @@ const ProfileForm = (props) => {
                     {/* The information here is currently a placeholder */}
                     <label htmlFor="newsSource" className="form-label">News Source:</label>
                     {userId?
-                    <select className="form-select">
+                    <select className="form-select" value={user.newsSource}>
                         {/* Replace this with a map of the api */}
                         <option selected>Open this select menu</option>
                         <option value="1">One</option>
