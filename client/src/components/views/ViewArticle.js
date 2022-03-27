@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../smallComponents/Navbar";
+import axios from "axios";
 
 const ViewArticle = (props) => {
     const {userId} = props;
@@ -19,8 +20,9 @@ const ViewArticle = (props) => {
 
     return (
         <div className="container">
+            <Navbar userId={userId}/>
             <h1>{article.title}</h1>
-            <img url={urlToImage} alt={article.title}></img>
+            <img url={article.urlToImage} alt={article.title}></img>
             <p>{article.content}</p>
         </div>
     )
