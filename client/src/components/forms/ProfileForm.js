@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 const ProfileForm = (props) => {
@@ -75,6 +76,11 @@ const ProfileForm = (props) => {
                     </select>
                     }
                 </div>
+                {userId?
+                    <button type="submit" className="btn btn-success" onClick={(e) => handleEdit(e)}>Submit Changes</button>
+                    :
+                    <button type="submit" className="btn btn-success" onClick={(e) => handleCreate(e)}>Sign Up</button>
+            }
             </form>
         </div>
     )

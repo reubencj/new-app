@@ -4,7 +4,7 @@ const EditProfile = (props) => {
 const {userId} = props;
 
 return (
-    <div>
+    <div className="container">
         <Navbar userId={userId} />
         <ProfileForm userId={userId} />
     </div>
