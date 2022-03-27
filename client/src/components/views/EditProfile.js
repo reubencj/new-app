@@ -1,9 +1,12 @@
+import Navbar from "../smallComponents/Navbar";
+import ProfileForm from "../forms/ProfileForm";
 const EditProfile = (props) => {
 const {userId} = props;
 
 return (
-    <div>
-        
+    <div className="container">
+        <Navbar userId={userId} />
+        <ProfileForm userId={userId} />
     </div>
 )
 }
