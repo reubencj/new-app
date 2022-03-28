@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { navigate } from "@reach/router";
+import { disabled } from "express/lib/application";
 
 const ProfileForm = (props) => {
     const {userId} = props;
@@ -12,22 +13,18 @@ const ProfileForm = (props) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [interests, setInterests] = useState([]);
     const [newsSource, setNewsSource] = useState("");
-    const [submitFunction, setSubmitFunction] = useState(null);
 
-    useEffect(()=>{
-        {userId?
+    useEffect((userId)=>{
+        if (userId) {
             axios.get(`http://localhost:8000/api/players/${userId}`)
-                .then((res)=>{
-                    console.log(res);
-                    console.log(res.data);
-                    setUser(res.data)
-                })
-                .catch((err)=>{
-                    console.log(err);
-                    setSubmitFunction(handleEdit);
-                })
-                :
-            setSubmitFunction(handleCreate);
+            .then((res)=>{
+                console.log(res);
+                console.log(res.data);
+                setUser(res.data)
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
         }
     }, [])
 
@@ -63,7 +60,7 @@ const ProfileForm = (props) => {
 
     return (
         <div>
-            <form onSubmit={(e) => submitFunction(e)}>
+            <form onSubmit={(e) => {userId? handleEdit(e) : handleCreate(e)}}>
                 <div>
                     <label htmlFor="name" className="form-label">Name:</label>
                     {userId?
@@ -98,7 +95,7 @@ const ProfileForm = (props) => {
                     <select className="form-select">
                         {/* Going to have to map all the favorites that were selected so that they appear in this menu */}
                         {/* Replace this with a map of the api */}
-                        <option selected>Open this select menu</option>
+                        <option disabled>Open this select menu</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
@@ -106,7 +103,7 @@ const ProfileForm = (props) => {
                     :
                     <select className="form-select">
                         {/* Replace this with a map of the api */}
-                        <option selected>Open this select menu</option>
+                        <option disabled>Open this select menu</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
@@ -117,7 +114,7 @@ const ProfileForm = (props) => {
                     {userId?
                     <select className="form-select" value={user.newsSource} onChange={(e) => setNewsSource(e.target.value)}>
                         {/* Replace this with a map of the api */}
-                        <option selected>Open this select menu</option>
+                        <option disabled>Open this select menu</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
@@ -125,7 +122,7 @@ const ProfileForm = (props) => {
                     :
                     <select className="form-select" onChange={(e) => setNewsSource(e.target.value)}>
                         {/* Replace this with a map of the api */}
-                        <option selected>Open this select menu</option>
+                        <option disabled>Open this select menu</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>

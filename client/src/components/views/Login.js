@@ -22,6 +22,10 @@ const Login = (props) => {
         });
     };
 
+    const handleNav = (e) => {
+        navigate(`/registration`);
+    }
+
     return (
         <div className="container">
             <Navbar />
@@ -30,7 +34,7 @@ const Login = (props) => {
             </div>
             <div className="col align-self-start">
                 <h3>Sign Up Here</h3>
-                <button onClick={navigate(`/registration`)}>Sign Up</button>
+                <button onClick={(e) => handleNav(e)}>Sign Up</button>
             </div>
             <div className="col align-self-end">
                 <h3>Login In Here</h3>

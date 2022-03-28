@@ -1,5 +1,6 @@
 import { navigate} from "@reach/router";
 import { useState } from "react";
+import { Link } from "@reach/router";
 
 
 const Navbar = (props) => {
@@ -9,18 +10,18 @@ const Navbar = (props) => {
   // This is done by checking to see if a userId has been passed down to this component.
   return (
     <div> {userId?
-        <nav className="navbar navbar-light" style="background-color: #1E90FF;"> 
+        <nav className="navbar navbar-light" style={{backgroundColor: "#1E90FF"}}> 
             <div className="container-fluid">
                 <a className="navbar-brand">News App</a>
             </div>
         </nav>
         :
-        <nav className="navbar navbar-light" style="background-color: #1E90FF;">
+        <nav className="navbar navbar-light" style={{backgroundColor: "#1E90FF"}}>
              <div className="container-fluid">
                 <a className="navbar-brand">News App</a>
                 <ul className="nav justify-content-end">
                     <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href="/">logout</a>
+                        <Link className="nav-link active" aria-current="page" to="/">logout</Link>
                     </li>
                 </ul>
             </div>
