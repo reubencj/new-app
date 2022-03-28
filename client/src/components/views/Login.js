@@ -3,6 +3,7 @@ import { navigate } from "@reach/router";
 
 const Login = (props) => {
 
+  const handleLogin = () => {}
     return (
         <div className="container">
             <Navbar />
