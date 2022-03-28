@@ -16,7 +16,7 @@ function App() {
   const [userId, setUserId] = useState("");
 
   return (
-    <div className="App">
+    <div className="App" >
       <Router>
         {/* Both Login and Registration do not require a userId as a new user would not have one yet */}
         <Login path="/"/>
