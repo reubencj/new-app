@@ -14,7 +14,7 @@ const Feed = (props) => {
                 <Navbar userId={userId}/>
             </div>
             <div>
-                <h1>Hi, {userName} welcome to your feed</h1>
+                <h1>Hi, {user.name} welcome to your feed</h1>
             </div>
             <div className="container">
                 <div className="col-3">
