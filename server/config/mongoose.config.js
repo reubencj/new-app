@@ -1,11 +1,17 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 // db name needed
-const dbName =
+const dbName = "news";
 
-mongoose.connect(`mongodb://localhost/${dbName}`, {
+mongoose
+  .connect(`${process.env.MONGO_HOST}${dbName}`, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => { console.log(`Connected to database: ${dbName}`)})
-.catch((err) => {console.log(err)});
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log(`Connected to database: ${dbName}`);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
