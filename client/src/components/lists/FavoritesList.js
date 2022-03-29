@@ -1,11 +1,37 @@
-const FeedList = (props) => {
-    const {userId} = props;
+import React, { useEffect, useState } from "react";
+import axios from 'axios'
 
-    return (
-        <div>
+const FavoritesList = (props) => {
+  const { userId } = props;
+  const [newSource, setNewSource] = useState({
+    newsItems: "",
+    isSelected: false,
+  });
+  const [favoritesList, setFavoritesList] = useState([]);
 
-        </div>
-    )
-}
+  const addNewSourceToFavoriteListHandler = (e) => {
+    e.preventDefault();
+    const newFavoritesList = [...favoritesList, newSource];
+    setFavoritesList(newFavoritesList);
+  };
 
-export default FeedList;
+  const editNewSourceHandler = (e) => {
+    let newItem = {
+      newsItems: e.target.value,
+      isSelected: false,
+    };
+    setNewSource(newItem);
+  };
+
+  const editNewSourceInFavoriteListHandler = (e) => {
+    let idx = e.target.value;
+    favoritesList[idx].isSelected = !favoritesList[idx].isSelected;
+    setFavoritesList([...favoritesList]);
+  };
+
+  return <div>
+
+  </div>;
+};
+
+export default FavoritesList;

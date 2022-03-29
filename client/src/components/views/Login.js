@@ -26,6 +26,7 @@ const Login = (props) => {
         navigate(`/registration`);
     }
 
+  const handleLogin = () => {}
     return (
         <div className="container">
             <Navbar />

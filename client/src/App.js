@@ -7,6 +7,7 @@ import Favorites from './components/views/Favorites';
 import Feed from './components/views/Feed';
 import ViewArticle from './components/views/ViewArticle';
 import { useState } from 'react';
+import TestComponent from './components/smallComponents/TestComponent'
 import axios from 'axios';
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
   const [userId, setUserId] = useState("");
 
   return (
-    <div className="App" >
+    <div className="App">
+      <TestComponent/>
       <Router>
         {/* Both Login and Registration do not require a userId as a new user would not have one yet */}
         <Login path="/"/>
