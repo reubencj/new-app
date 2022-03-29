@@ -8,10 +8,10 @@ const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogin =(e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         let dataSet = {email, password}
-        axios.post('http://localhost:8000/api/users', dataSet)
+        axios.post('http://localhost:8000/api/login', dataSet)
             .then((res)=>{
                 console.log(res.data);
                 navigate('/feed');
@@ -26,7 +26,6 @@ const Login = (props) => {
         navigate(`/registration`);
     }
 
-  const handleLogin = () => {}
     return (
         <div className="container">
             <Navbar />

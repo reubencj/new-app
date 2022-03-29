@@ -57,11 +57,6 @@ const ProfileForm = (props) => {
     };
 
 
-
-    const handleEdit = () => {}
-
-    const handleCreate= () => {}
-
     return (
         <div>
             <form onSubmit={(e) => {userId? handleEdit(e) : handleCreate(e)}}>
