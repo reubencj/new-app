@@ -1,5 +1,6 @@
 import './App.css';
-import { Router } from '@reach/router';
+import React from "react";
+import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Login from './components/views/Login';
 import Registration from './components/views/Registration';
 import EditProfile from './components/views/EditProfile';
@@ -20,13 +21,15 @@ function App() {
   if (userId) {
     return (
       <div className="App">
-        <Router>
-          {/* To view the articles a userId needs to be required and would be passed down as a prop */}
-          <EditProfile path="/myprofile" userId = {userId}/>
-          <Favorites path="/favorites" userId = {userId}/>
-          <Feed path="/feed" userId = {userId}/>
-          <ViewArticle path="/details/:articleId" userId = {userId}/>
-        </Router>
+        <BrowserRouter>
+          <Routes>
+            {/* To view the articles a userId needs to be required and would be passed down as a prop */}
+            <Route path="/myprofile" element = {<EditProfile userId = {userId}/>} />
+            <Route path="/favorites" element = {<Favorites  userId = {userId}/>} />
+            <Route path="/feed" element = { <Feed  userId = {userId}/>} />
+            <Route path="/details/:articleId" element = {<ViewArticle  userId = {userId}/>} />
+          </Routes>
+        </BrowserRouter>
       </div>
     );
     }
@@ -34,11 +37,14 @@ function App() {
       {/* Both Login and Registration do not require a userId as a new user would not have one yet and therfore are the only pages someone can see if they are not already logged in */}
       return (
         <div>
-          <Router>
-            <TestComponent/>
-            <Login path="/"/>
-            <Registration path="/registration"/>
-          </Router>
+          <BrowserRouter>
+            <Routes>
+              {/* To view the articles a userId needs to be required and would be passed down as a prop */}
+              <TestComponent/>
+              <Route path="/" element = {<Login path="/"/>} />
+              <Route path="/registration" element = {<Registration />} />
+            </Routes>
+          </BrowserRouter>
         </div>
     );
   }
