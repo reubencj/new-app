@@ -30,10 +30,18 @@ const registerUser = async (req, res) => {
     email: req.body.email,
     interests: req.body.interests.split(","),
   };
+
+  if (data.password !== data.confirmPassword) {
+    res
+        .status(400)
+        .json({ errorMessage: "Passwords must match" });
+  }
+
   // Create user
   try {
     const newUser = await User.create(data);
     res.json(newUser);
+
   } catch (error) {
     console.log("error");
     res.status(400).json(error);
@@ -183,61 +191,99 @@ const getProfile = async (req, res) => {
 
 // Update profile
 const updateProfile = async (req, res) => {
-  await handleAuth();
-  User.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true,
-    runValidators: true,
-  })
-    .then((updatedProfile) => res.json(updatedProfile))
-    .catch((err) => res.status(400).json(err));
+  const token = req.headers.authorization;
+  console.log(token);
+  let data = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    interests: req.body.interests.split(",")
+  };
+  try {
+    let user = await handleAuth(token);
+    let userObject = await User.findByIdAndUpdate(user, data);
+    res.json({ userObject })
+  } catch (error) {
+    console.log(error);
+    res.status(401).json(error);
+    return;
+  }
+  // await handleAuth();
+  // User.findOneAndUpdate({ _id: req.params.id }, req.body, {
+  //   new: true,
+  //   runValidators: true,
+  // })
+  //   .then((updatedProfile) => res.json(updatedProfile))
+  //   .catch((err) => res.status(400).json(err));
 };
+
+// Get favorites
+const getFavorites = async (req, res) => {
+  const token = req.headers.authorization;
+  console.log(token);
+  try {
+    let user = await handleAuth(token);
+    let userObject = await User.findById(user);
+    res.json({
+      favorites: userObject.favorites
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json(error);
+    return;
+  }
+}
+
+// Add favorite
+const addFavorite = async (req, res) => {
+  const token = req.headers.authorization;
+  console.log(token);
+  try {
+    let user = await handleAuth(token);
+    let userObject = await User.findById(user);
+
+    // let data = {
+    //   req.body
+    // }
+    // push new favorite into user's array
+    userObject.favorites.push( req.body )
+    
+    // save updated user to the db
+    const updated = await userObject.save()
+    console.log(updated);
+    res.json({updated});
+  } catch (error) {
+    console.log(error);
+    res.status(401).json(error);
+    return;
+  }
+}
+
+const removeFavorite = async (req, res) => {
+  const token = req.headers.authorization;
+  console.log(token);
+  try {
+    let user = await handleAuth(token);
+    let userObject = await User.findById(user);
+    userObject.favorites.id( req.params.id ).remove();
+    const updated = await userObject.save()
+    console.log(updated);
+    res.json({updated})
+  } catch (error) {
+    console.log(error);
+    res.status(401).json(error);
+    return;
+  }
+}
 
 module.exports = {
-  registerUser,
-  login,
-  logout,
-  feed,
-  getProfile,
-  updateProfile,
+    registerUser,
+    login,
+    logout,
+    feed,
+    getProfile,
+    getFavorites,
+    addFavorite,
+    removeFavorite,
+    updateProfile
 };
-
-// const test = async () => {
-//   console.log(CONFIG);
-//   try {
-//     const latest_news = await axios.get(
-//       "/latest_headlines?countries=US&topic=business&page_size=2",
-//       CONFIG
-//     );
-//     res.json(latest_news);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-// require("dotenv").config();
-// console.log(process.env.PORT);
-// // test();
-
-// // Protected route
-// const protected = async (req, res) => {
-//   const token = req.headers.authorization;
-//   console.log(token);
-//   try {
-//     let id = await handleAuth(token);
-//     res.json({ id });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(401).json(error);
-//     return;
-//   }
-//   let decodedToken;
-//   try {
-//     // Verify the usertoken using the secret key to get a decoded token
-//     decodedToken = await jwt.verify(token, process.env.SECRET_KEY);
-//   } catch (error) {
-//     console.log("error block");
-//     res.status(401).json(error);
-//     return;
-//   }
-//   console.log(decodedToken);
-//   res.send("Check your terminal");
-// };
