@@ -1,10 +1,39 @@
 import Navbar from "../smallComponents/Navbar";
 import FeedList from "../lists/FeedList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
+
+const HEADER = () => {
+    {
+        headers: {
+            Authorization: sessionStorage.getItem("user_token")
+        }
+    }
+}
+
 const Feed = (props) => {
   const { userId } = props;
   const [user, setUser] = useState({});
+  const [page, setPage] = useState(1);
+  const [article, setArticle] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/feed/:page')
+    .then(res=> {
+        setArticle(res.data);
+    });
+    }, [article])
+
+ const nextPage = (e) => {
+    e.preventDefault();
+     setPage(page + 1);
+ }
+
+ const prevPage = (e) => {
+    e.preventDefault();
+     setPage(page - 1);
+ }
+
 
   return (
     <div>
@@ -84,8 +113,32 @@ const Feed = (props) => {
           </div>
         </div>
         <div className="col-9">
-          <FeedList userId={userId} />
+            {props.article.map((article, index) => {
+                    return <div key={index}>
+                                <FeedCard title = {article.title} media = {article.media} summary = {article.summary}/>
+                            </div>     
+                })}
         </div>
+      </div>
+      <div> 
+        {(() => {
+            if(page == 1){
+                return (
+                    <button className="btn btn-secondary" onClick={(e) =>{nextPage()}}>Next Page</button>
+                )
+            }
+            else if (page > 1 && page < 1000) {
+                return(
+                    <div>
+                        <button className="btn btn-secondary" onClick={(e) =>{prevPage()}}>Previous Page</button>
+                        <button className="btn btn-secondary" onClick={(e) =>{nextPage()}}>Next Page</button>
+                    </div>
+                )}
+            else {
+                return (
+                    <button className="btn btn-secondary" onClick={(e) =>{prevPage()}}>Previous Page</button>
+                )}
+      })}
       </div>
     </div>
   );

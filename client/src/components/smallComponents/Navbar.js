@@ -1,10 +1,11 @@
-import { navigate} from "@reach/router";
+import { useNavigate, Link} from "react-router-dom";
 import { useState } from "react";
 import { Link } from "@reach/router";
 
 
 const Navbar = (props) => {
   const { userId } = props; 
+  const navigate = useNavigate();
 
   // conditional rendering of the navbar is dependent on whether a user is logged in.
   // This is done by checking to see if a userId has been passed down to this component.
