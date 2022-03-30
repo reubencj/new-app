@@ -2,6 +2,13 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+//get axios and setup it's configuration
+const axios = require("axios").default;
+const CONFIG = {
+  headers: { "x-api-key": process.env.NEWS_API_KEY },
+  timeout: 1000,
+};
+
 // Register a new user
 const registerUser = async (req, res) => {
   // check to see if user exists
@@ -102,9 +109,36 @@ const logout = (req, res) => {
   res.json({ message: "logout successful" });
 };
 
+const feed = (req, res) => {
+  axios
+    .get(
+      "https://api.newscatcherapi.com/v2/latest_headlines?countries=US&topic=business&page_size=2",
+      CONFIG
+    )
+    .then((response) => res.json(response.data))
+    .catch((err) => console.log(err));
+};
+
 module.exports = {
   registerUser,
   login,
   protected,
   logout,
+  feed,
 };
+
+// const test = async () => {
+//   console.log(CONFIG);
+//   try {
+//     const latest_news = await axios.get(
+//       "/latest_headlines?countries=US&topic=business&page_size=2",
+//       CONFIG
+//     );
+//     res.json(latest_news);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// require("dotenv").config();
+// console.log(process.env.PORT);
+// // test();
