@@ -6,4 +6,6 @@ module.exports = (app) => {
   app.post("/api/logout", UserController.logout);
   app.get("/api/protected", UserController.protected);
   app.get("/api/feed/:page", UserController.feed);
+  app.get("/api/profile", UserController.getProfile);
+  app.put("/api/profile", UserController.updateProfile);
 };

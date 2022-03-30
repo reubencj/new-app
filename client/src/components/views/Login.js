@@ -1,5 +1,5 @@
 import Navbar from "../smallComponents/Navbar";
-import { navigate } from "@reach/router";
+import { useNavigate} from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -7,13 +7,15 @@ const Login = (props) => {
     const {errors, setErrors} = useState({});
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const handleLogin =(e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         let dataSet = {email, password}
-        axios.post('http://localhost:8000/api/users', dataSet)
+        axios.post('http://localhost:8000/api/login', dataSet)
             .then((res)=>{
                 console.log(res.data);
+                sessionStorage.setItem("user_token", res.data.access_token)
                 navigate('/feed');
             })
             .catch((err) => {
@@ -26,7 +28,6 @@ const Login = (props) => {
         navigate(`/registration`);
     }
 
-  const handleLogin = () => {}
     return (
         <div className="container">
             <Navbar />

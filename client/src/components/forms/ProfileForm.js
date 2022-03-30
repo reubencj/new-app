@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { navigate } from "@reach/router";
+import { useNavigate} from "react-router-dom";
 import { disabled } from "express/lib/application";
 
 const ProfileForm = (props) => {
@@ -13,6 +13,7 @@ const ProfileForm = (props) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [interests, setInterests] = useState([]);
     const [newsSource, setNewsSource] = useState("");
+    const navigate = useNavigate();
 
     useEffect((userId)=>{
         if (userId) {
@@ -56,11 +57,6 @@ const ProfileForm = (props) => {
         });
     };
 
-
-
-    const handleEdit = () => {}
-
-    const handleCreate= () => {}
 
     return (
         <div>
