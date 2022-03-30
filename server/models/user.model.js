@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+
 const ArticleSchema = new mongoose.Schema({
   title: String,
   author: String,
@@ -41,7 +42,7 @@ const UserSchema = new mongoose.Schema(
       type: [String],
       required: [true, "Select at least 1 interest"],
     },
-    favorites: [ArticleSchema],
+    favorites: [ ArticleSchema ],
   },
   { timestamps: true }
 );
@@ -52,14 +53,14 @@ UserSchema.virtual("confirmPassword")
   .set((value) => (this._confirmPassword = value));
 
 // Check to make sure passwords match
-UserSchema.pre("validate", function (next) {
-  console.log("inside pre validate");
-  // If passwords don't match, send an error message
-  if (this.password !== this.confirmPassword) {
-    this.invalidate("confirmPassword", "Passwords must match");
-  }
-  next();
-});
+// UserSchema.pre("validate", function (next) {
+//   console.log("inside pre validate");
+//   // If passwords don't match, send an error message
+//   if (this.password !== this.confirmPassword) {
+//     this.invalidate("confirmPassword", "Passwords must match");
+//   }
+//   next();
+// });
 
 // Hash the password
 UserSchema.pre("save", function (next) {
@@ -80,3 +81,4 @@ UserSchema.pre("save", function (next) {
 });
 
 module.exports = mongoose.model("User", UserSchema);
+// module.exports = mongoose.model("Article", ArticleSchema);
