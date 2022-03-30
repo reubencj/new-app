@@ -3,7 +3,7 @@ import FeedList from "../lists/FeedList";
 import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
 
-const HEADER = () => {
+const CONFIG = () => {
     {
         headers: {
             Authorization: sessionStorage.getItem("user_token")
@@ -18,7 +18,7 @@ const Feed = (props) => {
   const [article, setArticle] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/feed/:page')
+    axios.get('http://localhost:8000/api/feed/:page', CONFIG)
     .then(res=> {
         setArticle(res.data);
     });

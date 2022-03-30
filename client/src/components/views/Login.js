@@ -15,7 +15,7 @@ const Login = (props) => {
         axios.post('http://localhost:8000/api/login', dataSet)
             .then((res)=>{
                 console.log(res.data);
-                sessionStorage.setItem("user_token", res.data.access_token)
+                sessionStorage.setItem("user_token", res.data.userToken)
                 navigate('/feed');
             })
             .catch((err) => {
