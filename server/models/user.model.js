@@ -26,9 +26,11 @@ const UserSchema = new mongoose.Schema({
     // Double check interests and sources please. Do we need requirements?
     interests: {
         type: [String],
+        required: [true, "Select at least 1 interest"]
     },
-    newsSources: {
-        type: [String],
+    favorites: {
+        type: Map,
+        of: String
     }
 }, { timestamps: true });
 

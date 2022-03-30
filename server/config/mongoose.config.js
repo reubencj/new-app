@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-// db name needed
 const dbName = "news";
 
 mongoose
