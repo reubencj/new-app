@@ -4,10 +4,6 @@ const bcrypt = require("bcrypt");
 
 //get axios and setup it's configuration
 const axios = require("axios").default;
-const CONFIG = {
-  headers: { "x-api-key": process.env.NEWS_API_KEY },
-  timeout: 1000,
-};
 
 // Register a new user
 const registerUser = async (req, res) => {
@@ -26,9 +22,17 @@ const registerUser = async (req, res) => {
     res.status(400).json(error);
   }
 
+  data = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    password: req.body.password,
+    confirmPassword: req.body.confirmPassword,
+    email: req.body.email,
+    interests: req.body.interests.split(","),
+  };
   // Create user
   try {
-    const newUser = await User.create(req.body);
+    const newUser = await User.create(data);
     res.json(newUser);
   } catch (error) {
     console.log("error");
@@ -83,31 +87,6 @@ const login = async (req, res) => {
   res.json({ userToken });
 };
 
-// Protected route
-const protected = async (req, res) => {
-  const token = req.headers.authorization;
-  console.log(token);
-  try {
-    let id = await handleAuth(token);
-    res.json({ id });
-  } catch (error) {
-    console.log(error);
-    res.status(401).json(error);
-    return;
-  }
-  //   let decodedToken;
-  //   try {
-  //     // Verify the usertoken using the secret key to get a decoded token
-  //     decodedToken = await jwt.verify(token, process.env.SECRET_KEY);
-  //   } catch (error) {
-  //     console.log("error block");
-  //     res.status(401).json(error);
-  //     return;
-  //   }
-  //   console.log(decodedToken);
-  //   res.send("Check your terminal");
-};
-
 // Logout route
 const logout = (req, res) => {
   console.log(req.cookie);
@@ -115,14 +94,55 @@ const logout = (req, res) => {
   res.json({ message: "logout successful" });
 };
 
-const feed = (req, res) => {
-  axios
-    .get(
-      "https://api.newscatcherapi.com/v2/latest_headlines?countries=US&topic=business&page_size=2",
-      CONFIG
-    )
-    .then((response) => res.json(response.data))
-    .catch((err) => console.log(err));
+const feed = async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+    let user = await handleAuth(token);
+    let userObject = await User.findById(user);
+    let interest = userObject.interests[0];
+    console.log(userObject);
+    let page = 1;
+    console.log(req.params);
+    if (req.params.interest) {
+      interest = req.params.interest;
+    }
+
+    if (req.params.page) {
+      page = req.params.page;
+    }
+    let config = {
+      headers: { "x-api-key": process.env.NEWS_API_KEY },
+      timeout: 1000,
+      params: {
+        countries: "US",
+        lang: "en",
+        page_size: 10,
+        page: page,
+        topic: interest,
+      },
+    };
+
+    let result = await axios.get(
+      `https://api.newscatcherapi.com/v2/latest_headlines`,
+      config
+    );
+    result = result.data;
+    let data = {
+      select_interest: interest,
+      user_interests: userObject.interests,
+      page: result.page,
+      total_pages: result.total_pages,
+      page_size: result.page_size,
+      articles: result.articles,
+    };
+    console.log("interest: ", interest);
+    console.log("page ", page);
+    console.log(data);
+    res.json({ message: data });
+  } catch (error) {
+    console.log(error);
+    res.json({ message: error });
+  }
 };
 
 // Promise for handling authoriation
@@ -152,7 +172,7 @@ const getProfile = async (req, res) => {
       firstName: userObject.firstName,
       lastName: userObject.lastName,
       email: userObject.email,
-      // interests: userObject.interests
+      interests: userObject.interests,
     });
   } catch (error) {
     console.log(error);
@@ -175,7 +195,6 @@ const updateProfile = async (req, res) => {
 module.exports = {
   registerUser,
   login,
-  protected,
   logout,
   feed,
   getProfile,
@@ -197,3 +216,28 @@ module.exports = {
 // require("dotenv").config();
 // console.log(process.env.PORT);
 // // test();
+
+// // Protected route
+// const protected = async (req, res) => {
+//   const token = req.headers.authorization;
+//   console.log(token);
+//   try {
+//     let id = await handleAuth(token);
+//     res.json({ id });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(401).json(error);
+//     return;
+//   }
+//   let decodedToken;
+//   try {
+//     // Verify the usertoken using the secret key to get a decoded token
+//     decodedToken = await jwt.verify(token, process.env.SECRET_KEY);
+//   } catch (error) {
+//     console.log("error block");
+//     res.status(401).json(error);
+//     return;
+//   }
+//   console.log(decodedToken);
+//   res.send("Check your terminal");
+// };
