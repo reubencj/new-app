@@ -11,6 +11,14 @@ import { useState } from 'react';
 import TestComponent from './components/smallComponents/TestComponent'
 import axios from 'axios';
 
+const CONFIG = () => {
+  {
+      headers: {
+          Authorization: sessionStorage.getItem("userToken")
+      }
+  }
+}
+
 function App() {
   
   // setting the user Id in App.Js so that state can be passed down to all necessary components/views without having to call the Back-end for each
@@ -18,16 +26,16 @@ function App() {
   const [userId, setUserId] = useState("");
 
 
-  if (userId) {
+  if (CONFIG) {
     return (
       <div className="App">
         <BrowserRouter>
           <Routes>
             {/* To view the articles a userId needs to be required and would be passed down as a prop */}
-            <Route path="/myprofile" element = {<EditProfile userId = {userId}/>} />
-            <Route path="/favorites" element = {<Favorites  userId = {userId}/>} />
-            <Route path="/feed" element = { <Feed  userId = {userId}/>} />
-            <Route path="/details/:articleId" element = {<ViewArticle  userId = {userId}/>} />
+            <Route path="/myprofile" element = {<EditProfile/>} />
+            <Route path="/favorites" element = {<Favorites/>} />
+            <Route path="/feed" element = { <Feed/>} />
+            <Route path="/details/:id" element = {<ViewArticle/>} />
           </Routes>
         </BrowserRouter>
       </div>

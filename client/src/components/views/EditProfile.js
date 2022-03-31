@@ -1,20 +1,19 @@
 import Navbar from "../smallComponents/Navbar";
 import ProfileForm from "../forms/ProfileForm";
-const HEADER = () => {
+const CONFIG = () => {
     {
         headers: {
-            Authorization: sessionStorage.getItem("user_token")
+            Authorization: sessionStorage.getItem("userToken")
         }
     }
 }
 
 const EditProfile = (props) => {
-const {userId} = props;
 
 return (
     <div className="container">
-        <Navbar userId={userId} />
-        <ProfileForm userId={userId} />
+        <Navbar userToken={CONFIG}/>
+        <ProfileForm userToken={CONFIG}/>
     </div>
 )
 }

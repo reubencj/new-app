@@ -15,7 +15,7 @@ const Login = (props) => {
         axios.post('http://localhost:8000/api/login', dataSet)
             .then((res)=>{
                 console.log(res.data);
-                sessionStorage.setItem("user_token", res.data.userToken)
+                sessionStorage.setItem("userToken", res.data.userToken)
                 navigate('/feed');
             })
             .catch((err) => {
@@ -43,8 +43,10 @@ const Login = (props) => {
                 <form onSubmit={(e) => handleLogin(e)}>
                     <label htmlFor="email" className="form-label">Email:</label>
                     <input type="email" className="form-control" id="email" onChange={(e) => setEmail(e.target.value)}></input>
+                    {errors.email ? <span style={{color: "red"}}>{errors.email.message}</span> : null} 
                     <label htmlFor="password" className="form-label">Password:</label>
                     <input type="password" className="form-control" id="password" onChange={(e) => setEmail(e.target.value)}></input>
+                    {errors.password ? <span style={{color: "red"}}>{errors.password.message}</span> : null} 
                     <button type="submit" className="btn btn-success">Login</button>
                 </form>
             </div>

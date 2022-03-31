@@ -4,7 +4,7 @@ import { useNavigate} from "react-router-dom";
 import { disabled } from "express/lib/application";
 
 const ProfileForm = (props) => {
-    const {userId} = props;
+    const {userToken} = props;
     const [errors, setErrors] = useState({});
     const [user, setUser] = useState({});
     const [name, setName] = useState("");
@@ -15,9 +15,9 @@ const ProfileForm = (props) => {
     const [newsSource, setNewsSource] = useState("");
     const navigate = useNavigate();
 
-    useEffect((userId)=>{
-        if (userId) {
-            axios.get(`http://localhost:8000/api/players/${userId}`)
+    useEffect((userToken)=>{
+        if (userToken) {
+            axios.get(`http://localhost:8000/api/players/${userToken}`)
             .then((res)=>{
                 console.log(res);
                 console.log(res.data);
@@ -46,7 +46,7 @@ const ProfileForm = (props) => {
     const handleEdit = (e) => {
         e.preventDefault();
         let dataSet = {name, email, password, interests, newsSource}
-        axios.put(`http://localhost:8000/api/users/${userId}`, dataSet)
+        axios.put(`http://localhost:8000/api/users/${userToken}`, dataSet)
             .then((res)=>{
                 console.log(res.data);
                 navigate('/feed');
@@ -56,80 +56,132 @@ const ProfileForm = (props) => {
                 setErrors(err.response.data.errors)
         });
     };
-
+    
+// WIll check if a item is in the interests, if it exists then it takes it out and the comma, if it doesn't exist then it adds it with a comma and no space.
+    const handleOnChangeSetInterests = (e) => {
+        let targetInterest = e.target.value;
+        if(interests.indexOf(targetInterest) !== -1) {
+            let tempInterests = interests.replace(`${targetInterest},`, '');
+            setInterests(tempInterests);
+        }
+        else {
+            let tempInterests = interests + ',' + targetInterest;
+            setInterests(tempInterests);
+        }
+    }
 
     return (
         <div>
-            <form onSubmit={(e) => {userId? handleEdit(e) : handleCreate(e)}}>
+            <form onSubmit={(e) => {userToken? handleEdit(e) : handleCreate(e)}}>
                 <div>
                     <label htmlFor="name" className="form-label">Name:</label>
-                    {userId?
+                    {userToken?
                     <input type="text" className="form-control" id="name" value={user.name} onChange={(e) => setName(e.target.value)}></input>
                     :
                     <input type="text" className="form-control" id="name" onChange={(e) => setName(e.target.value)}></input>
                     }
                     <label htmlFor="email" className="form-label">Email:</label>
-                    {userId?
+                    {userToken?
                     <input type="email" className="form-control" id="email" value={user.email} onChange={(e) => setEmail(e.target.value)}></input>
                     :
                     <input type="email" className="form-control" id="email" onChange={(e) => setEmail(e.target.value)}></input>
                     }
                     <label htmlFor="password" className="form-label">Password:</label>
-                    {userId?
+                    {userToken?
                     <input type="password" className="form-control" id="password" value={user.password} onChange={(e) => setPassword(e.target.value)}></input>
                     :
                     <input type="password" className="form-control" id="password" onChange={(e) => setPassword(e.target.value)}></input>
                     }
                     <label htmlFor="confirmPassword" className="form-label">Confirm Password:</label>
-                    {userId?
+                    {userToken?
                     <input type="password" className="form-control" id="confirmPassword" value={user.name} onChange={(e) => setConfirmPassword(e.target.value)}></input>
                     :
                     <input type="password" className="form-control" id="confirmPassword" onChange={(e) => setConfirmPassword(e.target.value)}></input>
                     }
                 </div>
                 <div>
-                    {/* We will need to get both the interests and the news source options from a call to the news api that way users only see those options */}
-                    {/* The information here is currently a placeholder */}
                     <label htmlFor="interests" className="form-label">Interests:</label>
-                    {userId?
-                    <select className="form-select">
-                        {/* Going to have to map all the favorites that were selected so that they appear in this menu */}
-                        {/* Replace this with a map of the api */}
-                        <option disabled>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
+                    {userToken?
+                    <div className="form-check">
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" disabled>Open this select menu</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="news">News</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="sport">Sports</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="tech">Tech</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="world">World</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="finance">Finance</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="politics">Politics</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="business">Business</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="economics">Econimics</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="entertainment">Entertainment</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="beauty">Beauty</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="gaming">Gaming</label>
+                    </input>
+                    </div>
                     :
-                    <select className="form-select">
-                        {/* Replace this with a map of the api */}
-                        <option disabled>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                    }
-                    {/* The information here is currently a placeholder */}
-                    <label htmlFor="newsSource" className="form-label">News Source:</label>
-                    {userId?
-                    <select className="form-select" value={user.newsSource} onChange={(e) => setNewsSource(e.target.value)}>
-                        {/* Replace this with a map of the api */}
-                        <option disabled>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                    :
-                    <select className="form-select" onChange={(e) => setNewsSource(e.target.value)}>
-                        {/* Replace this with a map of the api */}
-                        <option disabled>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
+                    <div className="form-check">
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" disabled>Open this select menu</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="news">News</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="sport">Sports</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="tech">Tech</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="world">World</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="finance">Finance</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="politics">Politics</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="business">Business</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="economics">Econimics</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="entertainment">Entertainment</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="beauty">Beauty</label>
+                    </input>
+                    <input type="checkbox" className="form-check-input" onChange={(e) => handleOnChangeSetInterests(e)}>
+                        <label className="form-check-label" value="gaming">Gaming</label>
+                    </input>
+                    </div>
                     }
                 </div>
-                {userId?
+                {userToken?
                     <button type="submit" className="btn btn-success">Submit Changes</button>
                     :
                     <button type="submit" className="btn btn-success">Sign Up</button>

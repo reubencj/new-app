@@ -4,32 +4,29 @@ import { Link } from "@reach/router";
 
 
 const Navbar = (props) => {
-  const { userId } = props; 
-  const navigate = useNavigate();
+    const { userToken } = props; 
+    const navigate = useNavigate();
 
   // conditional rendering of the navbar is dependent on whether a user is logged in.
   // This is done by checking to see if a userId has been passed down to this component.
-  return (
-    <div> {userId?
+    return (
+    <div> {userToken?
         <nav className="navbar navbar-light" style={{backgroundColor: "#1E90FF"}}> 
             <div className="container-fluid">
                 <a className="navbar-brand">News App</a>
+                <Link className="nav-link active" aria-current="page" onClick={(e) => sessionStorage.removeItem("userToken")} to="/">Logout</Link>
             </div>
         </nav>
         :
         <nav className="navbar navbar-light" style={{backgroundColor: "#1E90FF"}}>
-             <div className="container-fluid">
+            <div className="container-fluid">
                 <a className="navbar-brand">News App</a>
-                <ul className="nav justify-content-end">
-                    <li className="nav-item">
-                        <Link className="nav-link active" aria-current="page" to="/">logout</Link>
-                    </li>
-                </ul>
+                <Link className="nav-link active" aria-current="page" to="/">Login</Link>
             </div>
         </nav>
         }
     </div>
-  );
+    );
 };
 
 // const Navbar2 = (props) => {

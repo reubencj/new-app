@@ -1,3 +1,24 @@
+<<<<<<< HEAD
+
+const FavoritesCard = (props) => {
+    const {title, media, summary} = props;
+    
+    return (
+            <div  className="container border border-dark">
+                <div>
+                    <h1>{title}</h1> 
+                </div>
+                <div>
+                    <img src={media} alt={title}/>
+                </div>
+                <div>
+                    <p>{summary}</p>
+                </div>
+            </div>
+    )
+}
+
+=======
 
 const FavoritesCard = (props) => {
     const {article} = props
@@ -32,4 +53,5 @@ const FavoritesCard = (props) => {
     )
 }
 
+>>>>>>> f4a2e44853ee741025a6a67e4848570112bd3dfe
 export default FavoritesCard;
