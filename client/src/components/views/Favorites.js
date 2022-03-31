@@ -1,5 +1,7 @@
 import Navbar from "../smallComponents/Navbar";
 import { useEffect, useState} from "react";
+import axios from "axios";
+import FavoritesCard from "../smallComponents/FavoritesCard";
 
 const HEADER = () => {
     {
@@ -10,19 +12,18 @@ const HEADER = () => {
 }
 
 const Favorites = (props) => {
-    const {userId} = props;
-    const [user, setUser] = useState({});
+const [articles, setArticles] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/feed/:page')
+        axios.get('http://localhost:8000/api/favorites')
         .then(res=> {
-            setArticle(res.data);
+            setArticles(res.data);
         });
-        }, [article])
+        }, [articles])
 
     return (
         <div>
-            {props.article.map((article, index) => {
+            {articles.map((article, index) => {
                     return <div key={index}>
                                 <FavoritesCard title = {article.title} media = {article.media} summary = {article.summary}/>
                             </div>     

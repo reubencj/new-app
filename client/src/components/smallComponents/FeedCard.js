@@ -1,12 +1,24 @@
 import { useState } from "react";
-import Link from "react-router-dom";
+import { Link } from "@reach/router";
+import axios from "axios";
 
 const FeedCard = (props) => {
-    const {article} = props
+    const {article} = props;
     //const [news, setNews] = useState([]); //The state that we could set when we pull from the Api
     const [favorite, setFavorite] = useState(false);
+    const [title, setTitle] = useState(article.author);
+    const [author, setAuthor] = useState(article.author);
+    const [published_date, setPublished_date] = useState(article.published_date);
+    const [link, setLink] = useState(article.link);
+    const [topic, setTopic] = useState(article.topic);
+    const [source, setSource] = useState(article.source);
+    const [media, setMedia] = useState(article.media);
+    const [excerpt, setExcerpt] = useState(article.excerpt);
+    const [summary, setSummary] = useState(article.mesummarydia);
+    const [_id, set_id] = useState(article._id);
 
-    const addToFavoriteHandler = () => { //To make the button toggle from filled to filled star if favorited or unfilled star
+
+    const addToFavoriteHandler = (e) => { //To make the button toggle from filled to filled star if favorited or unfilled star
                                    //We can add the addtional code to this function
         
         e.preventDefault();
@@ -29,7 +41,7 @@ const FeedCard = (props) => {
         setFavorite(!favorite);
     }
 
-    const removeFromFavoriteHandler = () => { //Can we do soemthing like this if someone decides they don't actually want to favorite an item???
+    const removeFromFavoriteHandler = (e) => { //Can we do soemthing like this if someone decides they don't actually want to favorite an item???
         e.preventDefault();
         axios.delete('http://localhost:8000/api/favorites',
         {
