@@ -4,14 +4,11 @@ import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
 import axios from "axios";
 
-
-const CONFIG = () => {
-    {
-        headers: {
-            Authorization: sessionStorage.getItem("userToken")
-        }
-    }
-}
+const CONFIG = {
+  headers: {
+    Authorization: sessionStorage.getItem("userToken"),
+  },
+};
 
 const Feed = (props) => {
   const { userId } = props;
@@ -19,31 +16,27 @@ const Feed = (props) => {
   const [article, setArticle] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/feed/:page', CONFIG)
-    .then(res=> {
-        setArticle(res.data);
+    axios.get("http://localhost:8000/api/feed/:page", CONFIG).then((res) => {
+      setArticle(res.data);
     });
-    }, [article])
+  }, [article]);
 
- const nextPage = (e) => {
+  const nextPage = (e) => {
     e.preventDefault();
-     setPage(page + 1);
- }
+    setPage(page + 1);
+  };
 
- const prevPage = (e) => {
+  const prevPage = (e) => {
     e.preventDefault();
-     setPage(page - 1);
- }
-
+    setPage(page - 1);
+  };
 
   return (
     <div>
       <div>
         <Navbar userId={userId} />
       </div>
-      <div>
-        <h1>Hi, {user} welcome to your feed</h1>
-      </div>
+      <div>{/* <h1>Hi, {userID} welcome to your feed</h1> */}</div>
       <div className="container">
         <div className="col-3">
           <div>
@@ -114,32 +107,66 @@ const Feed = (props) => {
           </div>
         </div>
         <div className="col-9">
-            {props.article.map((article, index) => {
-                    return <div key={index}>
-                                <FeedCard title = {article.title} media = {article.media} summary = {article.summary}/>
-                            </div>     
-                })}
+          {props.article.map((article, index) => {
+            return (
+              <div key={index}>
+                <FeedCard
+                  title={article.title}
+                  media={article.media}
+                  summary={article.summary}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div> 
-        {(() => {
-            if(page == 1){
-                return (
-                    <button className="btn btn-secondary" onClick={(e) =>{nextPage()}}>Next Page</button>
-                )
-            }
-            else if (page > 1 && page < 1000) {
-                return(
-                    <div>
-                        <button className="btn btn-secondary" onClick={(e) =>{prevPage()}}>Previous Page</button>
-                        <button className="btn btn-secondary" onClick={(e) =>{nextPage()}}>Next Page</button>
-                    </div>
-                )}
-            else {
-                return (
-                    <button className="btn btn-secondary" onClick={(e) =>{prevPage()}}>Previous Page</button>
-                )}
-      })}
+      <div>
+        {() => {
+          if (page == 1) {
+            return (
+              <button
+                className="btn btn-secondary"
+                onClick={(e) => {
+                  nextPage();
+                }}
+              >
+                Next Page
+              </button>
+            );
+          } else if (page > 1 && page < 1000) {
+            return (
+              <div>
+                <button
+                  className="btn btn-secondary"
+                  onClick={(e) => {
+                    prevPage();
+                  }}
+                >
+                  Previous Page
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={(e) => {
+                    nextPage();
+                  }}
+                >
+                  Next Page
+                </button>
+              </div>
+            );
+          } else {
+            return (
+              <button
+                className="btn btn-secondary"
+                onClick={(e) => {
+                  prevPage();
+                }}
+              >
+                Previous Page
+              </button>
+            );
+          }
+        }}
       </div>
     </div>
   );
