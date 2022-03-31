@@ -1,25 +1,21 @@
 import Navbar from "../smallComponents/Navbar";
-import FeedList from "../lists/FeedList";
 import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
 import axios from "axios";
 
-const CONFIG = {
-  headers: {
-    Authorization: sessionStorage.getItem("userToken"),
-  },
-};
+const CONFIG =  {headers: {Authorization: sessionStorage.getItem("user_token")}}
 
 const Feed = (props) => {
-  const { userId } = props;
+  //const { userId } = props;
   const [page, setPage] = useState(1);
   const [article, setArticle] = useState([]);
+  const [data, setData] = useState();
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/feed/:page", CONFIG).then((res) => {
-      setArticle(res.data);
+    axios.get("http://localhost:8000/api/feed/", CONFIG).then((res) => {
+      setData(res.data);
     });
-  }, [article]);
+  }, []);
 
   const nextPage = (e) => {
     e.preventDefault();
@@ -34,76 +30,19 @@ const Feed = (props) => {
   return (
     <div>
       <div>
-        <Navbar userId={userId} />
+        <Navbar/>
       </div>
       <div>{/* <h1>Hi, {userID} welcome to your feed</h1> */}</div>
       <div className="container">
         <div className="col-3">
           <div>
-            <h2>Filter</h2>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Top Stories</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">US</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">World</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">World</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Sports</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Entertainment</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Money</label>
+          <select class="form-select" aria-label="Disabled select example" disabled>
+            <option selected>Interest</option>
+            {
+              props.article.map( (x,y) => 
+              <option key={y}>{x}</option> )
+            }
+          </select>   
           </div>
         </div>
         <div className="col-9">

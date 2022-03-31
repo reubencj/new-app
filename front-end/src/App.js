@@ -3,10 +3,10 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/views/Login";
 import Registration from "./components/views/Registration";
-// import EditProfile from "./components/views/EditProfile";
-// import Favorites from "./components/views/Favorites";
-// import Feed from "./components/views/Feed";
-// import ViewArticle from "./components/views/ViewArticle";
+import EditProfile from "./components/views/EditProfile";
+import Favorites from "./components/views/Favorites";
+import Feed from "./components/views/Feed";
+import ViewArticle from "./components/views/ViewArticle";
 // import { useState } from "react";
 // import TestComponent from "./components/smallComponents/TestComponent";
 
@@ -19,10 +19,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* To view the articles a userId needs to be required and would be passed down as a prop */}
-          {/* <Route path="/myprofile" element={<EditProfile />} />
+          <Route path="/profile" element={<EditProfile />} />
           <Route path="/favorites" element={<Favorites />} />
+          
+          <Route path="/details/:id" element={<ViewArticle />} />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/details/:id" element={<ViewArticle />} /> */}
           <Route path="/" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
         </Routes>

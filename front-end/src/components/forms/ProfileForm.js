@@ -6,18 +6,19 @@ const ProfileForm = (props) => {
   const { userToken } = props;
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState({});
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [interests, setInterests] = useState([]);
-  const [newsSource, setNewsSource] = useState("");
+  //const [newsSource, setNewsSource] = useState("");
   const navigate = useNavigate();
 
   useEffect((userToken) => {
     if (userToken) {
       axios
-        .get(`http://localhost:8000/api/players/${userToken}`)
+        .get(`http://localhost:8000/api/users/${userToken}`)
         .then((res) => {
           console.log(res);
           console.log(res.data);
@@ -31,12 +32,12 @@ const ProfileForm = (props) => {
 
   const handleCreate = (e) => {
     e.preventDefault();
-    let dataSet = { name, email, password, interests, newsSource };
+    let dataSet = { firstName, lastName, email, password, confirmPassword, interests};
     axios
-      .post("http://localhost:8000/api/users", dataSet)
+      .post("http://localhost:8000/api/register", dataSet)
       .then((res) => {
         console.log(res.data);
-        navigate("/feed");
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
@@ -46,14 +47,16 @@ const ProfileForm = (props) => {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    let dataSet = { name, email, password, interests, newsSource };
+    let dataSet = { firstName, lastName, email, password, confirmPassword, interests};
     axios
-      .put(`http://localhost:8000/api/users/${userToken}`, dataSet)
+      .put(`http://localhost:8000/api/profile/${userToken}`, dataSet)
       .then((res) => {
+        
         console.log(res.data);
         navigate("/feed");
       })
       .catch((err) => {
+        
         console.log(err);
         setErrors(err.response.data.errors);
       });
@@ -61,6 +64,7 @@ const ProfileForm = (props) => {
 
   // WIll check if a item is in the interests, if it exists then it takes it out and the comma, if it doesn't exist then it adds it with a comma and no space.
   const handleOnChangeSetInterests = (e) => {
+    e.preventDefault();
     let targetInterest = e.target.value;
     if (interests.indexOf(targetInterest) !== -1) {
       let tempInterests = interests.replace(`${targetInterest},`, "");
@@ -79,23 +83,43 @@ const ProfileForm = (props) => {
         }}
       >
         <div>
+          <div>
           <label htmlFor="name" className="form-label">
-            Name:
+            First Name:
           </label>
           {userToken ? (
             <input
               type="text"
               className="form-control"
               id="name"
-              value={user.name}
-              onChange={(e) => setName(e.target.value)}
+              value={user.firstName}
+              onChange={(e) => setFirstName(e.target.value)}
             ></input>
           ) : (
             <input
               type="text"
               className="form-control"
               id="name"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
+            ></input>
+          )}
+          <label htmlFor="name" className="form-label">
+            Last Name:
+          </label>
+          {userToken ? (
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              value={user.lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            ></input>
+          ) : (
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              onChange={(e) => setLastName(e.target.value)}
             ></input>
           )}
           <label htmlFor="email" className="form-label">
@@ -144,7 +168,7 @@ const ProfileForm = (props) => {
               type="password"
               className="form-control"
               id="confirmPassword"
-              value={user.name}
+              value={user.confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></input>
           ) : (
@@ -155,235 +179,33 @@ const ProfileForm = (props) => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></input>
           )}
-        </div>
-        <div>
-          <label htmlFor="interests" className="form-label">
+          </div>
+          <div>
+            <label htmlFor="interests" className="form-label">
             Interests:
           </label>
           {userToken ? (
-            <div className="form-check">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" disabled>
-                  Open this select menu
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="news">
-                  News
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="sport">
-                  Sports
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="tech">
-                  Tech
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="world">
-                  World
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="finance">
-                  Finance
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="politics">
-                  Politics
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="business">
-                  Business
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="economics">
-                  Econimics
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="entertainment">
-                  Entertainment
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="beauty">
-                  Beauty
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="gaming">
-                  Gaming
-                </label>
-              </input>
-            </div>
+            <input
+              type="interests"
+              className="form-control"
+              id="interests"
+              value={user.interests}
+              onChange={(e) => setInterests(e.target.value)}
+            ></input>
           ) : (
-            <div className="form-check">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" disabled>
-                  Open this select menu
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="news">
-                  News
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="sport">
-                  Sports
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="tech">
-                  Tech
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="world">
-                  World
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="finance">
-                  Finance
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="politics">
-                  Politics
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="business">
-                  Business
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="economics">
-                  Econimics
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="entertainment">
-                  Entertainment
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="beauty">
-                  Beauty
-                </label>
-              </input>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={(e) => handleOnChangeSetInterests(e)}
-              >
-                <label className="form-check-label" value="gaming">
-                  Gaming
-                </label>
-              </input>
-            </div>
+            <input
+              type="interests"
+              className="form-control"
+              onChange={(e) => setInterests(e.target.value)}
+            ></input>
           )}
+            
+
+          </div>
+        
+
         </div>
+        
         {userToken ? (
           <button type="submit" className="btn btn-success">
             Submit Changes

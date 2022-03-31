@@ -12,7 +12,7 @@ require("./config/mongoose.config");
 app.use(cookieParser());
 
 // credentials: true sets up express to get cookie in request header. Origin sets the client url for server to accept requests from.
-app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
