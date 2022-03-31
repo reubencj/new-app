@@ -3,7 +3,7 @@ import { useEffect, useState} from "react";
 import axios from "axios";
 import FavoritesCard from "../smallComponents/FavoritesCard";
 
-const HEADER = () => {
+const CONFIG = () => {
     {
         headers: {
             Authorization: sessionStorage.getItem("user_token")

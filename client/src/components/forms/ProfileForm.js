@@ -4,7 +4,7 @@ import { useNavigate} from "react-router-dom";
 import { disabled } from "express/lib/application";
 
 const ProfileForm = (props) => {
-    const {userId} = props;
+    const {userToken} = props;
     const [errors, setErrors] = useState({});
     const [user, setUser] = useState({});
     const [name, setName] = useState("");
@@ -15,9 +15,9 @@ const ProfileForm = (props) => {
     const [newsSource, setNewsSource] = useState("");
     const navigate = useNavigate();
 
-    useEffect((userId)=>{
-        if (userId) {
-            axios.get(`http://localhost:8000/api/players/${userId}`)
+    useEffect((userToken)=>{
+        if (userToken) {
+            axios.get(`http://localhost:8000/api/players/${userToken}`)
             .then((res)=>{
                 console.log(res);
                 console.log(res.data);
@@ -46,7 +46,7 @@ const ProfileForm = (props) => {
     const handleEdit = (e) => {
         e.preventDefault();
         let dataSet = {name, email, password, interests, newsSource}
-        axios.put(`http://localhost:8000/api/users/${userId}`, dataSet)
+        axios.put(`http://localhost:8000/api/users/${userToken}`, dataSet)
             .then((res)=>{
                 console.log(res.data);
                 navigate('/feed');
@@ -60,28 +60,28 @@ const ProfileForm = (props) => {
 
     return (
         <div>
-            <form onSubmit={(e) => {userId? handleEdit(e) : handleCreate(e)}}>
+            <form onSubmit={(e) => {userToken? handleEdit(e) : handleCreate(e)}}>
                 <div>
                     <label htmlFor="name" className="form-label">Name:</label>
-                    {userId?
+                    {userToken?
                     <input type="text" className="form-control" id="name" value={user.name} onChange={(e) => setName(e.target.value)}></input>
                     :
                     <input type="text" className="form-control" id="name" onChange={(e) => setName(e.target.value)}></input>
                     }
                     <label htmlFor="email" className="form-label">Email:</label>
-                    {userId?
+                    {userToken?
                     <input type="email" className="form-control" id="email" value={user.email} onChange={(e) => setEmail(e.target.value)}></input>
                     :
                     <input type="email" className="form-control" id="email" onChange={(e) => setEmail(e.target.value)}></input>
                     }
                     <label htmlFor="password" className="form-label">Password:</label>
-                    {userId?
+                    {userToken?
                     <input type="password" className="form-control" id="password" value={user.password} onChange={(e) => setPassword(e.target.value)}></input>
                     :
                     <input type="password" className="form-control" id="password" onChange={(e) => setPassword(e.target.value)}></input>
                     }
                     <label htmlFor="confirmPassword" className="form-label">Confirm Password:</label>
-                    {userId?
+                    {userToken?
                     <input type="password" className="form-control" id="confirmPassword" value={user.name} onChange={(e) => setConfirmPassword(e.target.value)}></input>
                     :
                     <input type="password" className="form-control" id="confirmPassword" onChange={(e) => setConfirmPassword(e.target.value)}></input>
@@ -91,7 +91,7 @@ const ProfileForm = (props) => {
                     {/* We will need to get both the interests and the news source options from a call to the news api that way users only see those options */}
                     {/* The information here is currently a placeholder */}
                     <label htmlFor="interests" className="form-label">Interests:</label>
-                    {userId?
+                    {userToken?
                     <select className="form-select">
                         {/* Going to have to map all the favorites that were selected so that they appear in this menu */}
                         {/* Replace this with a map of the api */}
@@ -111,7 +111,7 @@ const ProfileForm = (props) => {
                     }
                     {/* The information here is currently a placeholder */}
                     <label htmlFor="newsSource" className="form-label">News Source:</label>
-                    {userId?
+                    {userToken?
                     <select className="form-select" value={user.newsSource} onChange={(e) => setNewsSource(e.target.value)}>
                         {/* Replace this with a map of the api */}
                         <option disabled>Open this select menu</option>
@@ -129,7 +129,7 @@ const ProfileForm = (props) => {
                     </select>
                     }
                 </div>
-                {userId?
+                {userToken?
                     <button type="submit" className="btn btn-success">Submit Changes</button>
                     :
                     <button type="submit" className="btn btn-success">Sign Up</button>

@@ -6,7 +6,7 @@ const FeedCard = (props) => {
     const {article} = props;
     //const [news, setNews] = useState([]); //The state that we could set when we pull from the Api
     const [favorite, setFavorite] = useState(false);
-    const [title, setTitle] = useState(article.author);
+    const [title, setTitle] = useState(article.title);
     const [author, setAuthor] = useState(article.author);
     const [published_date, setPublished_date] = useState(article.published_date);
     const [link, setLink] = useState(article.link);

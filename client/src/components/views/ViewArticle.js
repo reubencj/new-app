@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "../smallComponents/Navbar";
 import axios from "axios";
 
-const HEADER = () => {
+const CONFIG = () => {
   {
       headers: {
           Authorization: sessionStorage.getItem("user_token")

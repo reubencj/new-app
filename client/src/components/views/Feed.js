@@ -7,7 +7,7 @@ import axios from "axios";
 const CONFIG = () => {
     {
         headers: {
-            Authorization: sessionStorage.getItem("user_token")
+            Authorization: sessionStorage.getItem("userToken")
         }
     }
 }

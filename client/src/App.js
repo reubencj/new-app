@@ -11,6 +11,14 @@ import { useState } from 'react';
 import TestComponent from './components/smallComponents/TestComponent'
 import axios from 'axios';
 
+const CONFIG = () => {
+  {
+      headers: {
+          Authorization: sessionStorage.getItem("userToken")
+      }
+  }
+}
+
 function App() {
   
   // setting the user Id in App.Js so that state can be passed down to all necessary components/views without having to call the Back-end for each
@@ -18,7 +26,7 @@ function App() {
   const [userId, setUserId] = useState("");
 
 
-  if (userId) {
+  if (CONFIG) {
     return (
       <div className="App">
         <BrowserRouter>
