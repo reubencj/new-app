@@ -65,92 +65,98 @@ const Registration = (props) => {
   };
 
   return (
-    <div className="container">
-      <Navbar />
-      <div>
-        <h1>Sign Up Page</h1>
+    <>
+      <div className="col-fluid mx-0">
+        <h1 className="text-center display-1 bg-dark shadow text-white">
+          News App
+        </h1>
       </div>
-      <form
-        onSubmit={(e) => {
-          handleCreate(e);
-        }}
-      >
+      <div className="container">
         <div>
-          <div>
-            <label htmlFor="name" className="form-label">
-              First Name:
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              onChange={(e) => setFirstName(e.target.value)}
-            ></input>
-            <label htmlFor="name" className="form-label">
-              Last Name:
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              onChange={(e) => setLastName(e.target.value)}
-            ></input>
-            <label htmlFor="email" className="form-label">
-              Email:
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              onChange={(e) => setEmail(e.target.value)}
-            ></input>
-            <label htmlFor="password" className="form-label">
-              Password:
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-            ></input>
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirm Password:
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmPassword"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            ></input>
-          </div>
-          <div>
-            <label htmlFor="interests" className="form-label">
-              Interest:
-              <span className="text-muted">
-                Press ctrl/cmd to select multiple options
-              </span>
-            </label>
-            <select
-              className="form-select"
-              multiple
-              aria-label="multiple select example"
-              onChange={(e) => handleSelect(e.target.selectedOptions)}
-            >
-              {interestsOptions.map((interest, index) => {
-                return (
-                  <option key={index} value={interest}>
-                    {interest}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+          <h1>Sign Up Page</h1>
         </div>
-        <button type="submit" className="btn btn-dark mt-2">
-          Sign Up
-        </button>
-      </form>
-    </div>
+        <form
+          onSubmit={(e) => {
+            handleCreate(e);
+          }}
+        >
+          <div>
+            <div>
+              <label htmlFor="name" className="form-label">
+                First Name:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                onChange={(e) => setFirstName(e.target.value)}
+              ></input>
+              <label htmlFor="name" className="form-label">
+                Last Name:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                onChange={(e) => setLastName(e.target.value)}
+              ></input>
+              <label htmlFor="email" className="form-label">
+                Email:
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                onChange={(e) => setEmail(e.target.value)}
+              ></input>
+              <label htmlFor="password" className="form-label">
+                Password:
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              ></input>
+              <label htmlFor="confirmPassword" className="form-label">
+                Confirm Password:
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="confirmPassword"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              ></input>
+            </div>
+            <div>
+              <label htmlFor="interests" className="form-label">
+                Interest:
+                <span className="text-muted">
+                  Press ctrl/cmd to select multiple options
+                </span>
+              </label>
+              <select
+                className="form-select"
+                multiple
+                aria-label="multiple select example"
+                onChange={(e) => handleSelect(e.target.selectedOptions)}
+              >
+                {interestsOptions.map((interest, index) => {
+                  return (
+                    <option key={index} value={interest}>
+                      {interest}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+          <button type="submit" className="btn btn-dark mt-2">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 
