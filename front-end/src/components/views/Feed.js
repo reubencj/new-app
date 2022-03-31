@@ -3,28 +3,30 @@ import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
 import axios from "axios";
 
-const CONFIG =  {headers: {Authorization: sessionStorage.getItem("userToken")}}
+const CONFIG = {
+  headers: { Authorization: sessionStorage.getItem("userToken") },
+};
 
 const Feed = (props) => {
   //const { userId } = props;
   const [page, setPage] = useState(1);
-  const [article, setArticle] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [userInterest, setUserInterest] = useState([]);
   const [selectedInterest, setSelectedInterest] = useState();
+  const [totalPage, setTotalPage] = useState();
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/feed/", CONFIG).then((res) => {
       setUserInterest(res.data.message.user_interests);
-      
+      console.dir(res.data.message);
+      setSelectedInterest(res.data.message.select_interest);
+      setArticles(res.data.message.articles);
+      setPage(res.data.message.page);
+      setTotalPage(res.data.message.total_pages);
+      setLoaded(true);
     });
   }, []);
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/feed/" + selectedInterest + "?" + page + "?", CONFIG).then((res) => {
-      console.log(res.data);
-      setArticle(res.data.message.articles);
-    });
-  }, [selectedInterest]);
 
   const nextPage = (e) => {
     e.preventDefault();
@@ -39,16 +41,17 @@ const Feed = (props) => {
   return (
     <div>
       <div>
-        <Navbar/>
+        <Navbar />
       </div>
       <div>{/* <h1>Hi, {userID} welcome to your feed</h1> */}</div>
       <div className="container">
-        <div className="col-3">
-          <div>
-          <select
+        <div className="row mt-3">
+          <div className="col-sm-4">
+            <select
               className="form-select"
               aria-label="multiple select example"
               onChange={(e) => setSelectedInterest(e.target.value)}
+              value={selectedInterest}
             >
               {userInterest.map((interest, index) => {
                 return (
@@ -59,68 +62,20 @@ const Feed = (props) => {
               })}
             </select>
           </div>
+
+          <div className="col-sm-4">
+            <button className="btn btn-primary">Get News</button>
+          </div>
         </div>
-        <div className="col-9">
-          {/* {props.article.map((article, index) => {
+        <div className="row mt-3">
+          {articles.map((article) => {
             return (
-              <div key={index}>
-                <FeedCard
-                  title={article.title}
-                  media={article.media}
-                  summary={article.summary}
-                />
+              <div className="col-md-4 mt-4" key={article._id}>
+                <FeedCard data={article} />
               </div>
             );
-          })} */}
+          })}
         </div>
-      </div>
-      <div>
-        {() => {
-          if (page == 1) {
-            return (
-              <button
-                className="btn btn-secondary"
-                onClick={(e) => {
-                  nextPage();
-                }}
-              >
-                Next Page
-              </button>
-            );
-          } else if (page > 1 && page < 1000) {
-            return (
-              <div>
-                <button
-                  className="btn btn-secondary"
-                  onClick={(e) => {
-                    prevPage();
-                  }}
-                >
-                  Previous Page
-                </button>
-                <button
-                  className="btn btn-secondary"
-                  onClick={(e) => {
-                    nextPage();
-                  }}
-                >
-                  Next Page
-                </button>
-              </div>
-            );
-          } else {
-            return (
-              <button
-                className="btn btn-secondary"
-                onClick={(e) => {
-                  prevPage();
-                }}
-              >
-                Previous Page
-              </button>
-            );
-          }
-        }}
       </div>
     </div>
   );
