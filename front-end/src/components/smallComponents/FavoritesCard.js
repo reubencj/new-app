@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom"
 
 const FavoritesCard = (props) => {
     const {title, media, summary} = props;
@@ -8,10 +9,13 @@ const FavoritesCard = (props) => {
                     <h1>{title}</h1> 
                 </div>
                 <div>
-                    <img src={media} alt={title}/>
+                    <img src={media} className="img-fluid img-thumbnail" alt={title}/>
                 </div>
                 <div>
                     <p>{summary}</p>
+                </div>
+                <div>
+                    <button className="btn btn-info"><Link to={{ pathname: "/details", state: props.data }}>View Page</Link></button>
                 </div>
             </div>
     )
