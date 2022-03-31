@@ -71,75 +71,77 @@ const EditProfile = (props) => {
   ];
 
   return (
-    <div className="container">
-      <Navbar userToken={CONFIG} />
-      {/* <ProfileForm userToken={CONFIG}/> */}
-      <div>
-        <h1>Edit Profile</h1>
-      </div>
-      <form
-        onSubmit={(e) => {
-          handleEdit(e);
-        }}
-      >
+    <>
+      <Navbar />
+      <div className="container">
+        {/* <ProfileForm userToken={CONFIG}/> */}
         <div>
-          <div>
-            <label htmlFor="name" className="form-label">
-              First Name:
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            ></input>
-            <label htmlFor="name" className="form-label">
-              Last Name:
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            ></input>
-            <label htmlFor="email" className="form-label">
-              Email:
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            ></input>
-          </div>
-          <div>
-            <label htmlFor="interests" className="form-label">
-              Interest: (Press ctrl/cmd to select multiple options)
-            </label>
-            <select
-              className="form-select"
-              multiple
-              aria-label="multiple select example"
-              onChange={(e) => handleSelect(e.target.selectedOptions)}
-            >
-              {interestsOptions.map((interest, index) => {
-                return (
-                  <option value={interest} key={index}>
-                    {interest}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+          <h1>Edit Profile</h1>
         </div>
-        <button type="submit" className="btn btn-dark mt-2">
-          Submit Changes
-        </button>
-      </form>
-    </div>
+        <form
+          onSubmit={(e) => {
+            handleEdit(e);
+          }}
+        >
+          <div>
+            <div>
+              <label htmlFor="name" className="form-label">
+                First Name:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              ></input>
+              <label htmlFor="name" className="form-label">
+                Last Name:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              ></input>
+              <label htmlFor="email" className="form-label">
+                Email:
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></input>
+            </div>
+            <div>
+              <label htmlFor="interests" className="form-label">
+                Interest: (Press ctrl/cmd to select multiple options)
+              </label>
+              <select
+                className="form-select"
+                multiple
+                aria-label="multiple select example"
+                onChange={(e) => handleSelect(e.target.selectedOptions)}
+              >
+                {interestsOptions.map((interest, index) => {
+                  return (
+                    <option value={interest} key={index}>
+                      {interest}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+          <button type="submit" className="btn btn-dark mt-2">
+            Submit Changes
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 

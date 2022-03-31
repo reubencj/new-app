@@ -102,7 +102,7 @@ const Feed = (props) => {
               );
             })}
           </div>
-          <div className="row mb-4">
+          <div className="row mb-4 justify-content-between">
             <div className="col-4 ">
               <button
                 className="btn btn-outline-dark"
