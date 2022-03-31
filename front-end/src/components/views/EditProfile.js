@@ -4,7 +4,7 @@ import { useState, useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const CONFIG =  {headers: {Authorization: sessionStorage.getItem("user_token")}}
+const CONFIG =  {headers: {Authorization: sessionStorage.getItem("userToken")}}
 
 const EditProfile = (props) => {
     const [errors, setErrors] = useState({});
@@ -12,42 +12,39 @@ const EditProfile = (props) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [interests, setInterests] = useState([]);
     const navigate = useNavigate();
 
-    // useEffect((userToken) => {
-    //     if (userToken) {
-    //       axios
-    //         .get(`http://localhost:8000/api/users/${userToken}`)
-    //         .then((res) => {
-    //           console.log(res);
-    //           console.log(res.data);
-    //           setUser(res.data);
-    //         })
-    //         .catch((err) => {
-    //           console.log(err);
-    //         });
-    //     }
-    //   }, []);
+    useEffect(() => {
+        axios.get("http://localhost:8000/api/profile/", CONFIG).then((res) => {
+          //setUserInterest(res.data.message.user_interests);
+          console.log(res.data);
+          setEmail(res.data.email);
+          setFirstName(res.data.firstName);
+          setLastName(res.data.lastName);
+          setInterests(res.data.interests);
+        });
+      }, []);
+    
+    
+    
 
-    // const handleEdit = (e) => {
-    //     e.preventDefault();
-    //     let dataSet = { firstName, lastName, email, password, confirmPassword, interests};
-    //     axios
-    //       .put(`http://localhost:8000/api/profile/${userToken}`, dataSet)
-    //       .then((res) => {
+    const handleEdit = (e) => {
+        e.preventDefault();
+        let dataSet = { firstName, lastName, email, interests};
+        axios
+          .put(`http://localhost:8000/api/profile/`, dataSet, CONFIG)
+          .then((res) => {
             
-    //         console.log(res.data);
-    //         navigate("/feed");
-    //       })
-    //       .catch((err) => {
+            console.log(res.data);
+            navigate("/feed");
+          })
+          .catch((err) => {
             
-    //         console.log(err);
-    //         setErrors(err.response.data.errors);
-    //       });
-    //   };
+            console.log(err);
+            setErrors(err.response.data.errors);
+          });
+      };
     
     const handleSelect = function(selectedItems) {
         const interestList = [];
@@ -85,7 +82,7 @@ return (
       </div>
       <form
         onSubmit={(e) => {
-        //   handleEdit(e);
+           handleEdit(e);
         }}
       >
         <div>
@@ -97,7 +94,7 @@ return (
               type="text"
               className="form-control"
               id="firstName"
-              value={user.firstName}
+              value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             ></input>
             <label htmlFor="name" className="form-label">
@@ -107,7 +104,7 @@ return (
               type="text"
               className="form-control"
               id="lastName"
-              value={user.lastName}
+              value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             ></input>
             <label htmlFor="email" className="form-label">
@@ -117,33 +114,13 @@ return (
               type="email"
               className="form-control"
               id="email"
-              value={user.email}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
-            ></input>
-            <label htmlFor="password" className="form-label">
-              Password:
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={user.password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></input>
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirm Password:
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmPassword"
-              value={user.confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
             ></input>
           </div>
           <div>
             <label htmlFor="interests" className="form-label">
-            Interest: Press ctrl/cmd to select multiple options
+            Interest: (Press ctrl/cmd to select multiple options)
             </label>
             <select
               className="form-select"

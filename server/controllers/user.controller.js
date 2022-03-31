@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
     email: req.body.email,
-    interests: req.body.interests.split(","),
+    interests: req.body.interests //Removed .split was getting an error when registering
   };
 
   if (data.password !== data.confirmPassword) {
@@ -197,7 +197,7 @@ const updateProfile = async (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    interests: req.body.interests.split(",")
+    interests: req.body.interests
   };
   try {
     let user = await handleAuth(token);

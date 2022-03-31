@@ -3,19 +3,28 @@ import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
 import axios from "axios";
 
-const CONFIG =  {headers: {Authorization: sessionStorage.getItem("user_token")}}
+const CONFIG =  {headers: {Authorization: sessionStorage.getItem("userToken")}}
 
 const Feed = (props) => {
   //const { userId } = props;
   const [page, setPage] = useState(1);
   const [article, setArticle] = useState([]);
-  const [data, setData] = useState();
+  const [userInterest, setUserInterest] = useState([]);
+  const [selectedInterest, setSelectedInterest] = useState();
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/feed/", CONFIG).then((res) => {
-      setData(res.data);
+      setUserInterest(res.data.message.user_interests);
+      
     });
   }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/feed/" + selectedInterest + "?" + page + "?", CONFIG).then((res) => {
+      console.log(res.data);
+      setArticle(res.data.message.articles);
+    });
+  }, [selectedInterest]);
 
   const nextPage = (e) => {
     e.preventDefault();
@@ -36,17 +45,23 @@ const Feed = (props) => {
       <div className="container">
         <div className="col-3">
           <div>
-          <select class="form-select" aria-label="Disabled select example" disabled>
-            <option selected>Interest</option>
-            {
-              props.article.map( (x,y) => 
-              <option key={y}>{x}</option> )
-            }
-          </select>   
+          <select
+              className="form-select"
+              aria-label="multiple select example"
+              onChange={(e) => setSelectedInterest(e.target.value)}
+            >
+              {userInterest.map((interest, index) => {
+                return (
+                  <option key={index} value={interest}>
+                    {interest}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
         <div className="col-9">
-          {props.article.map((article, index) => {
+          {/* {props.article.map((article, index) => {
             return (
               <div key={index}>
                 <FeedCard
@@ -56,7 +71,7 @@ const Feed = (props) => {
                 />
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
       <div>

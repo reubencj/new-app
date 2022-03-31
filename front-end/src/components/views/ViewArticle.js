@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "../smallComponents/Navbar";
 import axios from "axios";
 
-const CONFIG =  {headers: {Authorization: sessionStorage.getItem("user_token")}}
+const CONFIG =  {headers: {Authorization: sessionStorage.getItem("userToken")}}
 
 const ViewArticle = (props) => {
   const [article, setArticle] = useState({});

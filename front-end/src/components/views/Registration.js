@@ -126,7 +126,7 @@ const Registration = (props) => {
           </div>
           <div>
             <label htmlFor="interests" className="form-label">
-              Interest: Press ctrl/cmd to select multiple options
+              Interest:(Press ctrl/cmd to select multiple options) 
             </label>
             <select
               className="form-select"
