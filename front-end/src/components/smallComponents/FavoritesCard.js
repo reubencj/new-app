@@ -1,3 +1,4 @@
+
 import {Link} from "react-router-dom"
 
 const FavoritesCard = (props) => {
@@ -20,5 +21,6 @@ const FavoritesCard = (props) => {
             </div>
     )
 }
+
 
 export default FavoritesCard;

@@ -1,88 +1,67 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FeedCard = (props) => {
-    const {article} = props;
-    //const [news, setNews] = useState([]); //The state that we could set when we pull from the Api
-    const [favorite, setFavorite] = useState(false);
-    const [title, setTitle] = useState(article.title);
-    const [author, setAuthor] = useState(article.author);
-    const [published_date, setPublished_date] = useState(article.published_date);
-    const [link, setLink] = useState(article.link);
-    const [topic, setTopic] = useState(article.topic);
-    const [source, setSource] = useState(article.source);
-    const [media, setMedia] = useState(article.media);
-    const [excerpt, setExcerpt] = useState(article.excerpt);
-    const [summary, setSummary] = useState(article.mesummarydia);
-    const [_id, set_id] = useState(article._id);
+  let { title, clean_url, media, published_date } = props.data;
+  let [favDisable, setFavDisable] = useState(false);
+  const CONFIG = {
+    headers: { Authorization: sessionStorage.getItem("userToken") },
+  };
+  let nav = useNavigate();
 
+  const addToFavorite = (e) => {
+    //To make the button toggle from filled to filled star if favorited or unfilled star
+    //We can add the addtional code to this function
 
-    const addToFavoriteHandler = (e) => { //To make the button toggle from filled to filled star if favorited or unfilled star
-                                   //We can add the addtional code to this function
-        
-        e.preventDefault();
-        axios.post('http://localhost:8000/api/favorites',
-        {
-            title,
-            author,
-            published_date,
-            link,
-            topic,
-            source,
-            media,
-            excerpt,
-            summary,
-            _id
-        }
-        )
-        .then(res=> console.log(res))
-        .catch(err => console.log(err))
-        setFavorite(!favorite);
-    }
+    e.preventDefault();
+    let data = {
+      title: props.data.title,
+      author: props.data.author,
+      published_date: props.data.published_date,
+      link: props.data.link,
+      topic: props.data.topic,
+      media: props.data.media,
+      excerpt: props.data.excerpt,
+      summary: props.data.summary,
+      clean_url: props.data.clean_url,
+    };
+    axios
+      .post("http://localhost:8000/api/favorites", data, CONFIG)
+      .then((res) => {
+        console.log(res);
+        setFavDisable(true);
+      })
+      .catch((err) => console.log(err));
+  };
 
-    const removeFromFavoriteHandler = (e) => { //Can we do soemthing like this if someone decides they don't actually want to favorite an item???
-        e.preventDefault();
-        axios.delete('http://localhost:8000/api/favorites',
-        {
-        title,
-        author,
-        published_date,
-        link,
-        topic,
-        source,
-        media,
-        excerpt,
-        summary,
-        _id
-        }
-        )
-        .then(res=> console.log(res))
-        .catch(err => console.log(err))
-        setFavorite(!favorite);
-        }
+  return (
+    <div className="d-flex flex-column shadow p-3 mb-5 bg-white rounded align-items-center">
+      <p className="h5 text-justify">{title}</p>
 
-
-    return (
-        <div  className="container border border-dark">
-            <div>
-                <h1>{article.title}</h1> 
-            </div>
-            <div>
-                <img src={article.media} alt=""></img>
-            </div>
-            <div>
-                {favorite?
-                <button type="button" className="btn btn-warning"><span className="bi bi-star" onClick={(e) => removeFromFavoriteHandler(e)}></span>Un-Favorite</button>
-                :
-                <button type="button" className="btn btn-warning"><span className="bi bi-star-fill" onClick={(e) => addToFavoriteHandler(e)}></span>Favorite</button>
-                }
-            </div>
-            <div>
-                <button className="btn btn-info"><Link to={{pathname:"/details", state:article}}>View Page</Link></button>
-            </div>
-        </div>
-    )
-}
+      <img
+        className="card-img-top w-50 mx-auto mt-1"
+        src={media}
+        alt="artilce"
+      />
+      <p>{clean_url}</p>
+      <div className="d-flex">
+        <button
+          className="btn btn-outline-primary mx-2"
+          onClick={(e) => nav("/details", { state: props.data })}
+        >
+          View Article
+        </button>
+        <button
+          className="btn btn-success"
+          disabled={favDisable}
+          onClick={(e) => addToFavorite(e)}
+        >
+          Favorite
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default FeedCard;

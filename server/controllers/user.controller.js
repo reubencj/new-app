@@ -28,20 +28,17 @@ const registerUser = async (req, res) => {
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
     email: req.body.email,
-    interests: req.body.interests //Removed .split was getting an error when registering
+    interests: req.body.interests, //Removed .split was getting an error when registering
   };
 
   if (data.password !== data.confirmPassword) {
-    res
-        .status(400)
-        .json({ errorMessage: "Passwords must match" });
+    res.status(400).json({ errorMessage: "Passwords must match" });
   }
 
   // Create user
   try {
     const newUser = await User.create(data);
     res.json(newUser);
-
   } catch (error) {
     console.log("error");
     res.status(400).json(error);
@@ -124,7 +121,7 @@ const feed = async (req, res) => {
       params: {
         countries: "US",
         lang: "en",
-        page_size: 10,
+        page_size: 12,
         page: page,
         topic: interest,
       },
@@ -197,12 +194,12 @@ const updateProfile = async (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    interests: req.body.interests
+    interests: req.body.interests,
   };
   try {
     let user = await handleAuth(token);
     let userObject = await User.findByIdAndUpdate(user, data);
-    res.json({ userObject })
+    res.json({ userObject });
   } catch (error) {
     console.log(error);
     res.status(401).json(error);
@@ -225,14 +222,14 @@ const getFavorites = async (req, res) => {
     let user = await handleAuth(token);
     let userObject = await User.findById(user);
     res.json({
-      favorites: userObject.favorites
+      favorites: userObject.favorites,
     });
   } catch (error) {
     console.log(error);
     res.status(401).json(error);
     return;
   }
-}
+};
 
 // Add favorite
 const addFavorite = async (req, res) => {
@@ -246,18 +243,18 @@ const addFavorite = async (req, res) => {
     //   req.body
     // }
     // push new favorite into user's array
-    userObject.favorites.push( req.body )
-    
+    userObject.favorites.push(req.body);
+
     // save updated user to the db
-    const updated = await userObject.save()
+    const updated = await userObject.save();
     console.log(updated);
-    res.json({updated});
+    res.json({ updated });
   } catch (error) {
     console.log(error);
     res.status(401).json(error);
     return;
   }
-}
+};
 
 const removeFavorite = async (req, res) => {
   const token = req.headers.authorization;
@@ -265,25 +262,25 @@ const removeFavorite = async (req, res) => {
   try {
     let user = await handleAuth(token);
     let userObject = await User.findById(user);
-    userObject.favorites.id( req.params.id ).remove();
-    const updated = await userObject.save()
+    userObject.favorites.id(req.params.id).remove();
+    const updated = await userObject.save();
     console.log(updated);
-    res.json({updated})
+    res.json({ updated });
   } catch (error) {
     console.log(error);
     res.status(401).json(error);
     return;
   }
-}
+};
 
 module.exports = {
-    registerUser,
-    login,
-    logout,
-    feed,
-    getProfile,
-    getFavorites,
-    addFavorite,
-    removeFavorite,
-    updateProfile
+  registerUser,
+  login,
+  logout,
+  feed,
+  getProfile,
+  getFavorites,
+  addFavorite,
+  removeFavorite,
+  updateProfile,
 };

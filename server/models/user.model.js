@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-
 const ArticleSchema = new mongoose.Schema({
   title: String,
   author: String,
   published_date: Date,
   link: String,
   topic: String,
-  source: String,
+  clean_url: String,
   media: String,
   excerpt: String,
   summary: String,
@@ -42,7 +41,7 @@ const UserSchema = new mongoose.Schema(
       type: [String],
       required: [true, "Select at least 1 interest"],
     },
-    favorites: [ ArticleSchema ],
+    favorites: [ArticleSchema],
   },
   { timestamps: true }
 );
