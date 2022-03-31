@@ -46,72 +46,11 @@ const Feed = (props) => {
       </div>
       <div className="container">
         <div className="col-3">
-          <div>
-            <h2>Filter</h2>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Top Stories</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">US</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">World</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">World</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Sports</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Entertainment</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Money</label>
-          </div>
+        <select className="form-select" aria-label="Disabled select example" disabled>
+          <option selected>Interest</option>
+          {props.user.interest.map( (x,y) => 
+            <option key={y}>{x}</option> )}
+        </select>
         </div>
         <div className="col-9">
             {props.article.map((article, index) => {
