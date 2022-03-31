@@ -74,7 +74,7 @@ const login = async (req, res) => {
 
   // Check userQuery against the password with bcrypt compare function
   try {
-    const compareBoolean = await bcrypt.compare(
+    const compareBoolean = bcrypt.compare(
       req.body.password,
       userQuery.password
     );

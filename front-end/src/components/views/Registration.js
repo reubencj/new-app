@@ -56,13 +56,12 @@ const Registration = (props) => {
   };
 
   const handleSelect = function (selectedItems) {
-      
     const interestList = [];
     for (let i = 0; i < selectedItems.length; i++) {
       interestList.push(selectedItems[i].value);
     }
     setInterests(interestList);
-    console.log(interests)
+    console.log(interests);
   };
 
   return (
@@ -126,7 +125,10 @@ const Registration = (props) => {
           </div>
           <div>
             <label htmlFor="interests" className="form-label">
-              Interest:(Press ctrl/cmd to select multiple options) 
+              Interest:
+              <span className="text-muted">
+                Press ctrl/cmd to select multiple options
+              </span>
             </label>
             <select
               className="form-select"
@@ -144,7 +146,7 @@ const Registration = (props) => {
             </select>
           </div>
         </div>
-        <button type="submit" className="btn btn-success">
+        <button type="submit" className="btn btn-dark mt-2">
           Sign Up
         </button>
       </form>
