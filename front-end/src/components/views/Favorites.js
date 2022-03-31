@@ -3,19 +3,14 @@ import { useEffect, useState} from "react";
 import axios from "axios";
 import FavoritesCard from "../smallComponents/FavoritesCard";
 
-const CONFIG = () => {
-    {
-        headers: {
-            Authorization: sessionStorage.getItem("user_token")
-        }
-    }
-}
+const CONFIG =  {headers: {Authorization: sessionStorage.getItem("userToken")}}
+
 
 const Favorites = (props) => {
 const [articles, setArticles] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/favorites')
+        axios.get('http://localhost:8000/api/favorites', CONFIG)
         .then(res=> {
             setArticles(res.data);
         });

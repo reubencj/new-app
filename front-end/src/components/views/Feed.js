@@ -1,25 +1,30 @@
 import Navbar from "../smallComponents/Navbar";
-import FeedList from "../lists/FeedList";
 import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
 import axios from "axios";
 
-const CONFIG = {
-  headers: {
-    Authorization: sessionStorage.getItem("userToken"),
-  },
-};
+const CONFIG =  {headers: {Authorization: sessionStorage.getItem("userToken")}}
 
 const Feed = (props) => {
-  const { userId } = props;
+  //const { userId } = props;
   const [page, setPage] = useState(1);
   const [article, setArticle] = useState([]);
+  const [userInterest, setUserInterest] = useState([]);
+  const [selectedInterest, setSelectedInterest] = useState();
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/feed/:page", CONFIG).then((res) => {
-      setArticle(res.data);
+    axios.get("http://localhost:8000/api/feed/", CONFIG).then((res) => {
+      setUserInterest(res.data.message.user_interests);
+      
     });
-  }, [article]);
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/feed/" + selectedInterest + "?" + page + "?", CONFIG).then((res) => {
+      console.log(res.data);
+      setArticle(res.data.message.articles);
+    });
+  }, [selectedInterest]);
 
   const nextPage = (e) => {
     e.preventDefault();
@@ -34,80 +39,29 @@ const Feed = (props) => {
   return (
     <div>
       <div>
-        <Navbar userId={userId} />
+        <Navbar/>
       </div>
       <div>{/* <h1>Hi, {userID} welcome to your feed</h1> */}</div>
       <div className="container">
         <div className="col-3">
           <div>
-            <h2>Filter</h2>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Top Stories</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">US</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">World</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">World</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Sports</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Entertainment</label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label">Money</label>
+          <select
+              className="form-select"
+              aria-label="multiple select example"
+              onChange={(e) => setSelectedInterest(e.target.value)}
+            >
+              {userInterest.map((interest, index) => {
+                return (
+                  <option key={index} value={interest}>
+                    {interest}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
         <div className="col-9">
-          {props.article.map((article, index) => {
+          {/* {props.article.map((article, index) => {
             return (
               <div key={index}>
                 <FeedCard
@@ -117,7 +71,7 @@ const Feed = (props) => {
                 />
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
       <div>

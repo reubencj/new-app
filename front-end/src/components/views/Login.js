@@ -61,7 +61,7 @@ const Login = (props) => {
             type="password"
             className="form-control"
             id="password"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           ></input>
           {/* {errors.password ? (
             <span style={{ color: "red" }}>{errors.password.message}</span>

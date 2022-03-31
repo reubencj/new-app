@@ -2,13 +2,8 @@ import { useState, useEffect } from "react";
 import Navbar from "../smallComponents/Navbar";
 import axios from "axios";
 
-const CONFIG = () => {
-  {
-      headers: {
-          Authorization: sessionStorage.getItem("user_token")
-      }
-  }
-}
+const CONFIG =  {headers: {Authorization: sessionStorage.getItem("userToken")}}
+
 const ViewArticle = (props) => {
   const [article, setArticle] = useState({});
 
@@ -27,8 +22,8 @@ const ViewArticle = (props) => {
 
   return (
     <div className="container">
-      <Navbar userId={userId} />
-      <h1>{props.location.state.title}</h1>  //This is what we might do to pass stuff from the cards to the view article page
+      <Navbar/>
+      <h1>{props.location.state.title}</h1>  
       <img url={props.location.state.media} alt={props.location.state.title}/>
       <p>{props.location.state.summary}</p>
     </div>
