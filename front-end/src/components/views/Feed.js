@@ -3,7 +3,7 @@ import FeedList from "../lists/FeedList";
 import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
 import axios from "axios";
-import { navigate } from "@reach/router";
+
 
 const CONFIG = () => {
     {
