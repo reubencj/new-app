@@ -3,6 +3,7 @@ import FeedList from "../lists/FeedList";
 import { useState, useEffect } from "react";
 import FeedCard from "../smallComponents/FeedCard";
 import axios from "axios";
+import { navigate } from "@reach/router";
 
 const CONFIG = () => {
     {
@@ -14,7 +15,6 @@ const CONFIG = () => {
 
 const Feed = (props) => {
   const { userId } = props;
-  const [user, setUser] = useState({});
   const [page, setPage] = useState(1);
   const [article, setArticle] = useState([]);
 

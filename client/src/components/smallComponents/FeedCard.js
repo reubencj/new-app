@@ -73,9 +73,9 @@ const FeedCard = (props) => {
             </div>
             <div>
                 {favorite?
-                <button type="button" className="btn btn-warning"><span className="bi bi-star-fill" onClick={(e) => {addToFavoriteHandler()}}></span>Favorite</button>
+                <button type="button" className="btn btn-warning"><span className="bi bi-star" onClick={(e) => removeFromFavoriteHandler(e)}></span>Un-Favorite</button>
                 :
-                <button type="button" className="btn btn-warning"><span className="bi bi-star" onClick={(e) => {removeFromFavoriteHandler()}}></span>Favorite</button>
+                <button type="button" className="btn btn-warning"><span className="bi bi-star-fill" onClick={(e) => addToFavoriteHandler(e)}></span>Favorite</button>
                 }
             </div>
             <div>

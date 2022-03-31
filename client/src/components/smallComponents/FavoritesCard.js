@@ -1,18 +1,17 @@
 
 const FavoritesCard = (props) => {
-    const {article} = props
-    //const [news, setNews] = useState([]); //The state that we could set when we pull from the Api
+    const {title, media, summary} = props;
     
     return (
             <div  className="container border border-dark">
                 <div>
-                    <h1>{article.title}</h1> 
+                    <h1>{title}</h1> 
                 </div>
                 <div>
-                    <img src={article.media} alt=""></img>
+                    <img src={media} alt={title}/>
                 </div>
                 <div>
-                    <p>{article.summary}</p>
+                    <p>{summary}</p>
                 </div>
             </div>
     )
