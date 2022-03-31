@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FeedCard = (props) => {
-  let { title, clean_url, media, published_date } = props.data;
+  let { title, clean_url, media } = props.data;
   let [favDisable, setFavDisable] = useState(false);
   const CONFIG = {
     headers: { Authorization: sessionStorage.getItem("userToken") },
@@ -47,13 +47,13 @@ const FeedCard = (props) => {
       <p>{clean_url}</p>
       <div className="d-flex">
         <button
-          className="btn btn-outline-primary mx-2"
+          className="btn btn-outline-dark mx-2"
           onClick={(e) => nav("/details", { state: props.data })}
         >
           View Article
         </button>
         <button
-          className="btn btn-success"
+          className="btn btn-dark"
           disabled={favDisable}
           onClick={(e) => addToFavorite(e)}
         >

@@ -82,13 +82,14 @@ const Feed = (props) => {
                 }}
                 value={selectedInterest}
               >
-                {userInterest.map((interest, index) => {
-                  return (
-                    <option key={index} value={interest}>
-                      {interest}
-                    </option>
-                  );
-                })}
+                {loaded &&
+                  userInterest.map((interest, index) => {
+                    return (
+                      <option key={index} value={interest}>
+                        {interest}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
           </div>
@@ -101,23 +102,26 @@ const Feed = (props) => {
               );
             })}
           </div>
+          <div className="row mb-4">
+            <div className="col-4 ">
+              <button
+                className="btn btn-outline-dark"
+                onClick={(e) => prevPage(e)}
+              >
+                Previous Page
+              </button>
+            </div>
+            <div className="col-4">
+              <p className="h6">Page {page}</p>
+            </div>
+            <div className="col-4">
+              <button className="btn btn-dark" onClick={(e) => nextPage(e)}>
+                Next Page
+              </button>
+            </div>
+          </div>
         </div>
       )}
-      <div className="row mb-4">
-        <div className="col-4 ">
-          <button className="btn btn-primary" onClick={(e) => prevPage(e)}>
-            Previous Page
-          </button>
-        </div>
-        <div className="col-4">
-          <p className="h6">Page {page}</p>
-        </div>
-        <div className="col-4">
-          <button className="btn btn-primary" onClick={(e) => nextPage(e)}>
-            Next Page
-          </button>
-        </div>
-      </div>
     </div>
   );
 };
