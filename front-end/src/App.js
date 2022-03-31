@@ -21,7 +21,7 @@ function App() {
           {/* To view the articles a userId needs to be required and would be passed down as a prop */}
           <Route path="/profile" element={<EditProfile />} />
           <Route path="/favorites" element={<Favorites />} />
-          
+
           <Route path="/details" element={<ViewArticle />} />
           <Route path="/feed" element={<Feed />} />
           <Route path="/" element={<Login />} />
