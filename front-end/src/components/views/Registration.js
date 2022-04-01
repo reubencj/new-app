@@ -50,7 +50,7 @@ const Registration = (props) => {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
+        console.dir(err.response);
         setErrors(err.response.data.errors);
       });
   };
@@ -88,45 +88,67 @@ const Registration = (props) => {
               <input
                 type="text"
                 className="form-control"
-                id="name"
                 onChange={(e) => setFirstName(e.target.value)}
-              ></input>
+              />
+              {errors.hasOwnProperty("firstName") && (
+                <div className="alert alert-danger">
+                  {errors.firstName.message}
+                </div>
+              )}
+
               <label htmlFor="name" className="form-label">
                 Last Name:
               </label>
               <input
                 type="text"
                 className="form-control"
-                id="name"
                 onChange={(e) => setLastName(e.target.value)}
-              ></input>
+              />
+              {errors.hasOwnProperty("lastName") && (
+                <div className="alert alert-danger">
+                  {errors.lastName.message}
+                </div>
+              )}
+
               <label htmlFor="email" className="form-label">
                 Email:
               </label>
               <input
                 type="email"
                 className="form-control"
-                id="email"
                 onChange={(e) => setEmail(e.target.value)}
-              ></input>
+              />
+              {errors.hasOwnProperty("email") && (
+                <div className="alert alert-danger">{errors.email.message}</div>
+              )}
+
               <label htmlFor="password" className="form-label">
                 Password:
               </label>
               <input
                 type="password"
                 className="form-control"
-                id="password"
                 onChange={(e) => setPassword(e.target.value)}
-              ></input>
+              />
+              {errors.hasOwnProperty("password") && (
+                <div className="alert alert-danger">
+                  {errors.password.message}
+                </div>
+              )}
+
               <label htmlFor="confirmPassword" className="form-label">
                 Confirm Password:
               </label>
               <input
                 type="password"
                 className="form-control"
-                id="confirmPassword"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>
+              {errors.hasOwnProperty("confirmPassword") && (
+                <div className="alert alert-danger">
+                  {errors.confirmPassword}
+                </div>
+              )}
             </div>
             <div>
               <label htmlFor="interests" className="form-label">

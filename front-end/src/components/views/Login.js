@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Login = (props) => {
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -20,8 +20,8 @@ const Login = (props) => {
         navigate("/feed");
       })
       .catch((err) => {
-        console.log(err);
-        setErrors(err.response.data.errors);
+        console.log(err.response.data.error);
+        setErrors(err.response.data.error);
       });
   };
 
@@ -52,9 +52,7 @@ const Login = (props) => {
                 id="email"
                 onChange={(e) => setEmail(e.target.value)}
               ></input>
-              {/* {errors.email ? (
-                    <span style={{ color: "red" }}>{errors.email.message}</span>
-                ) : null} */}
+
               <label htmlFor="password" className="form-label">
                 Password:
               </label>
@@ -64,9 +62,6 @@ const Login = (props) => {
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {/* {errors.password ? (
-                        <span style={{ color: "red" }}>{errors.password.message}</span>
-                    ) : null} */}
             </div>
           </div>
           <div className="row mt-2">
@@ -82,6 +77,11 @@ const Login = (props) => {
               >
                 Sign Up
               </button>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-5 mt-2">
+              {errors && <div className="alert alert-danger">{errors}</div>}
             </div>
           </div>
         </div>
