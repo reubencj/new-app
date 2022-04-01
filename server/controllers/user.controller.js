@@ -13,9 +13,9 @@ const registerUser = async (req, res) => {
     // if user with that email exists, send an error message and return out of the function
     query = await User.findOne({ email: req.body.email });
     if (query) {
-      res
-        .status(400)
-        .json({ errorMessage: "User with that email already exists" });
+      res.status(400).json({
+        errors: { email: { message: "User with that email already exists" } },
+      });
       return;
     }
   } catch (error) {
@@ -32,7 +32,10 @@ const registerUser = async (req, res) => {
   };
 
   if (data.password !== data.confirmPassword) {
-    res.status(400).json({ errorMessage: "Passwords must match" });
+    res
+      .status(400)
+      .json({ errors: { confirmPassword: "Passwords must match" } });
+    return;
   }
 
   // Create user
@@ -40,8 +43,8 @@ const registerUser = async (req, res) => {
     const newUser = await User.create(data);
     res.json(newUser);
   } catch (error) {
-    console.log("error");
-    res.status(400).json(error);
+    console.log(error);
+    res.status(400).json({ error: error });
   }
 };
 
