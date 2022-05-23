@@ -38,8 +38,8 @@ const Feed = (props) => {
         console.dir(res.data.message);
         setSelectedInterest(res.data.message.select_interest);
         setArticles(res.data.message.articles);
-        setPage(res.data.message.page);
-        setTotalPage(res.data.message.total_pages);
+        setPage(parseInt(res.data.message.page));
+        setTotalPage(parseInt(res.data.message.total_pages));
       });
   };
 
@@ -108,6 +108,7 @@ const Feed = (props) => {
               <button
                 className="btn btn-outline-dark"
                 onClick={(e) => prevPage(e)}
+                disabled={page <= 1}
               >
                 Previous Page
               </button>
@@ -119,6 +120,7 @@ const Feed = (props) => {
               <button
                 className="btn btn-dark align-self-end"
                 onClick={(e) => nextPage(e)}
+                disabled={page >= totalPage}
               >
                 Next Page
               </button>

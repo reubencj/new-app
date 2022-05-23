@@ -7,10 +7,9 @@ const ArticleSchema = new mongoose.Schema({
   published_date: Date,
   link: String,
   topic: String,
-  clean_url: String,
+  url: String,
   media: String,
-  excerpt: String,
-  summary: String,
+  content: String,
 });
 
 const UserSchema = new mongoose.Schema(

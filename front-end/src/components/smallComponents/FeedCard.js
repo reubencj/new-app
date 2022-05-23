@@ -13,6 +13,14 @@ const FeedCard = (props) => {
     //To make the button toggle from filled to filled star if favorited or unfilled star
     //We can add the addtional code to this function
 
+    // title: String,
+    // author: String,
+    // published_date: Date,
+    // link: String,
+    // topic: String,
+    // url: String,
+    // media: String,
+    // content: String
     e.preventDefault();
     let data = {
       title: props.data.title,
@@ -20,7 +28,7 @@ const FeedCard = (props) => {
       published_date: props.data.publishedAt,
       link: props.data.url,
       media: props.data.urlToImage,
-      summary: props.data.content,
+      content: props.data.content,
     };
     axios
       .post("http://localhost:8000/api/favorites", data, CONFIG)
@@ -38,9 +46,9 @@ const FeedCard = (props) => {
       <img
         className="card-img-top w-50 mx-auto mt-1 mb-2"
         src={props.data.urlToImage}
-        alt="artilce"
+        alt="article_image"
       />
-      <p>{props.data.description}</p>
+      <p className="text-muted">{props.data.description}</p>
       <div className="d-flex">
         <button
           className="btn btn-outline-dark mx-2"

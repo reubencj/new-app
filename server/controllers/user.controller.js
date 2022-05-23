@@ -138,7 +138,7 @@ const feed = async (req, res) => {
       select_interest: interest,
       user_interests: userObject.interests,
       page: page,
-      total_pages: Math.ceil(parseInt(result.totalResults) / parseInt(page)),
+      total_pages: Math.ceil(parseInt(result.totalResults) / 12),
       page_size: result.page_size,
       articles: result.articles,
     };

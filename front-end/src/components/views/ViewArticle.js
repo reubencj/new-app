@@ -22,13 +22,13 @@ const ViewArticle = (props) => {
           <div className="col-md-8">
             <h1 className="text-center">{location.state.title}</h1>
             <img
-              src={location.state.urlToImage}
+              src={location.state.urlToImage || location.state.media}
               alt={location.state.title}
               className="img-fluid"
             />
             <p>By {location.state.author}</p>
             <div>
-              <p className="text-start">{location.state.content}</p>
+              <p className="text-start text-muted">{location.state.content}</p>
             </div>
             <button
               onClick={() => window.open(location.state.url)}
