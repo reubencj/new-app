@@ -60,6 +60,7 @@ const Feed = (props) => {
   useEffect(() => {
     if (loaded) {
       getArticle();
+      window.scrollTo(0, 0);
     }
   }, [page, selectedInterest]);
 
@@ -94,16 +95,16 @@ const Feed = (props) => {
             </div>
           </div>
           <div className="row mt-3">
-            {articles.map((article) => {
+            {articles.map((article, index) => {
               return (
-                <div className="col-md-4 mt-4" key={article._id}>
+                <div className="col-md-4 mt-4" key={index}>
                   <FeedCard data={article} />
                 </div>
               );
             })}
           </div>
           <div className="row mb-4 justify-content-between">
-            <div className="col-4 ">
+            <div className="col">
               <button
                 className="btn btn-outline-dark"
                 onClick={(e) => prevPage(e)}
@@ -111,11 +112,14 @@ const Feed = (props) => {
                 Previous Page
               </button>
             </div>
-            <div className="col-4">
+            <div className="col">
               <p className="h6">Page {page}</p>
             </div>
-            <div className="col-4">
-              <button className="btn btn-dark" onClick={(e) => nextPage(e)}>
+            <div className="col">
+              <button
+                className="btn btn-dark align-self-end"
+                onClick={(e) => nextPage(e)}
+              >
                 Next Page
               </button>
             </div>

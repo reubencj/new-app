@@ -119,27 +119,26 @@ const feed = async (req, res) => {
       page = req.params.page;
     }
     let config = {
-      headers: { "x-api-key": process.env.NEWS_API_KEY },
+      headers: { "X-Api-Key": process.env.NEWS_API_KEY },
       timeout: 1000,
       params: {
-        countries: "US",
-        lang: "en",
-        page_size: 12,
+        country: "us",
+        pageSize: 12,
         page: page,
-        topic: interest,
+        category: interest,
       },
     };
 
     let result = await axios.get(
-      `https://api.newscatcherapi.com/v2/latest_headlines`,
+      `https://newsapi.org/v2/top-headlines`,
       config
     );
     result = result.data;
     let data = {
       select_interest: interest,
       user_interests: userObject.interests,
-      page: result.page,
-      total_pages: result.total_pages,
+      page: page,
+      total_pages: Math.ceil(parseInt(result.totalResults) / parseInt(page)),
       page_size: result.page_size,
       articles: result.articles,
     };

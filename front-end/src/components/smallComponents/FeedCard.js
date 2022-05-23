@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FeedCard = (props) => {
-  let { title, clean_url, media } = props.data;
   let [favDisable, setFavDisable] = useState(false);
   const CONFIG = {
     headers: { Authorization: sessionStorage.getItem("userToken") },
@@ -18,13 +17,10 @@ const FeedCard = (props) => {
     let data = {
       title: props.data.title,
       author: props.data.author,
-      published_date: props.data.published_date,
-      link: props.data.link,
-      topic: props.data.topic,
-      media: props.data.media,
-      excerpt: props.data.excerpt,
-      summary: props.data.summary,
-      clean_url: props.data.clean_url,
+      published_date: props.data.publishedAt,
+      link: props.data.url,
+      media: props.data.urlToImage,
+      summary: props.data.content,
     };
     axios
       .post("http://localhost:8000/api/favorites", data, CONFIG)
@@ -37,14 +33,14 @@ const FeedCard = (props) => {
 
   return (
     <div className="d-flex flex-column shadow p-3 mb-5 bg-white rounded align-items-center">
-      <p className="h5 text-justify">{title}</p>
+      <p className="h5 text-justify">{props.data.title}</p>
 
       <img
-        className="card-img-top w-50 mx-auto mt-1"
-        src={media}
+        className="card-img-top w-50 mx-auto mt-1 mb-2"
+        src={props.data.urlToImage}
         alt="artilce"
       />
-      <p>{clean_url}</p>
+      <p>{props.data.description}</p>
       <div className="d-flex">
         <button
           className="btn btn-outline-dark mx-2"
