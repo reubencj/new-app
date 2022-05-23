@@ -19,24 +19,34 @@ const Favorites = (props) => {
       setLoaded(true);
     });
   }, [toggle]);
+  
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/favorites", CONFIG).then((res) => {
+      // console.log(res.data.favorites);
+      setArticles(res.data.favorites);
+      setLoaded(true);
+    });
+  }, []);
 
   return (
     <div>
       <Navbar userToken={CONFIG} />
       <div className="container">
-        <div className="row mt-3">
-          {loaded &&
-            articles.map((article) => {
-              return (
-                <div key={article._id}>
-                  <FavoritesCard
-                    data={article}
-                    toggle={toggle}
-                    setToggle={setToggle}
-                  />
-                </div>
-              );
-            })}
+        <div className="row mt-3 justify-content-center">
+          <div className="col-md-8">
+            {loaded &&
+              articles.map((article) => {
+                return (
+                  <div key={article._id}>
+                    <FavoritesCard
+                      data={article}
+                      toggle={toggle}
+                      setToggle={setToggle}
+                    />
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </div>
     </div>

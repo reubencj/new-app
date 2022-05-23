@@ -17,19 +17,27 @@ const ViewArticle = (props) => {
   return (
     <>
       <Navbar />
-      <div className="container">
-        <h1>{location.state.title}</h1>
-        <img src={location.state.media} alt={location.state.title} />
-        <p>By {location.state.author}</p>
-        <div>
-          <p className="text-start">{location.state.summary}</p>
+      <div className="container-md">
+        <div className="row justify-content-center">
+          <div className="col-md-8">
+            <h1 className="text-center">{location.state.title}</h1>
+            <img
+              src={location.state.urlToImage || location.state.media}
+              alt={location.state.title}
+              className="img-fluid"
+            />
+            <p>By {location.state.author}</p>
+            <div>
+              <p className="text-start text-muted">{location.state.content}</p>
+            </div>
+            <button
+              onClick={() => window.open(location.state.url)}
+              className="btn btn-dark"
+            >
+              Read Full Article
+            </button>
+          </div>
         </div>
-        <button
-          onClick={() => window.open(location.state.link)}
-          className="btn btn-dark"
-        >
-          Read Full Article
-        </button>
       </div>
     </>
   );

@@ -52,22 +52,13 @@ const EditProfile = (props) => {
   };
 
   const interestsOptions = [
-    "news",
-    "sport",
-    "tech",
-    "world",
-    "finance",
-    "politics",
     "business",
-    "economics",
     "entertainment",
-    "beauty",
-    "travel",
-    "music",
-    "food",
+    "general",
+    "health",
     "science",
-    "gaming",
-    "energy",
+    "sports",
+    "technology",
   ];
 
   return (
